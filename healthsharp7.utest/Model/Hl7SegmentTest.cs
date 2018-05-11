@@ -16,6 +16,7 @@ namespace healthsharp7.utest.Model
         public void SegmentNamesShouldBeThreeCharacterLong()
         {
             Assert.Throws<ArgumentException>(() => Hl7Segment.Parse("PI"));
+            Assert.Throws<ArgumentException>(() => Hl7Segment.Parse("PI|D"));
             Assert.Throws<ArgumentException>(() => Hl7Segment.Parse("PIDD"));
         }
 

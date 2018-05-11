@@ -17,7 +17,9 @@ namespace healthsharp7.Model
         public static Hl7Segment Parse(string segment)
         {
             if (segment == null) throw new ArgumentNullException(nameof(segment));
-            if (segment.Length < 3 || segment.Length > 3 && segment[3] != '|')
+            if (segment.Length < 3 
+                || (segment.Length > 3 && segment[3] != '|') 
+                || segment.Substring(0,3).Contains("|"))
                 throw new ArgumentException("Segment names should be 3 character long", segment);
 
             var segmentName = segment.Substring(0, 3);
