@@ -6,21 +6,21 @@ namespace healthsharp7.Model
 {
     public class Hl7Message
     {
-        private static readonly string[] LineSeparators = { "\r\n", "\n\r", "\r", "\n" };
+        private static readonly string[] LineSeparators = {"\r\n", "\n\r", "\r", "\n"};
 
         private Hl7Message()
         {
             Segments = new List<Hl7Segment>();
         }
 
-        private Hl7Message(List<string> segments): this()
+        private Hl7Message(List<string> segments) : this()
         {
             Segments.Clear();
             foreach (var segment in segments)
-            {
                 Segments.Add(Hl7Segment.Parse(segment));
-            }
         }
+
+        public List<Hl7Segment> Segments { get; }
 
         public static Hl7Message Parse(string message)
         {
@@ -29,7 +29,5 @@ namespace healthsharp7.Model
 
             return hl7Message;
         }
-
-        public List<Hl7Segment> Segments { get; private set; }
     }
 }
