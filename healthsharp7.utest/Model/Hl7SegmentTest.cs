@@ -28,5 +28,27 @@ namespace healthsharp7.utest.Model
             //Assert
             Assert.Equal("PID", segment.Name);
         }
+
+        [Fact]
+        public void ShouldLazyParseSegments()
+        {
+            //Act
+            var segment = Hl7Segment.Parse("EVN|A01|20110613083617|||");
+
+            //Assert
+            Assert.False(segment.IsParsed);
+        }
+
+        [Fact]
+        public void SegmentOnlyWithNameShouldBeMarkedAsParsed()
+        {
+            //Act
+            var segment = Hl7Segment.Parse("EVN");
+            var segment2 = Hl7Segment.Parse("EVN|");
+
+            //Assert
+            Assert.True(segment.IsParsed);
+            Assert.True(segment2.IsParsed);
+        }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("healthsharp7.utest")]
 namespace healthsharp7.Model
 {
     public class Hl7Segment
@@ -10,6 +12,7 @@ namespace healthsharp7.Model
         }
 
         public string Name { get; }
+        internal bool IsParsed { get; set; }
 
         public static Hl7Segment Parse(string segment)
         {
@@ -18,7 +21,12 @@ namespace healthsharp7.Model
                 throw new ArgumentException("Segment names should be 3 character long", segment);
 
             var segmentName = segment.Substring(0, 3);
-            return new Hl7Segment(segmentName);
+            var hl7Segment = new Hl7Segment(segmentName);
+            if (segment.Length <= 4)
+            {
+                hl7Segment.IsParsed = true;
+            }
+            return hl7Segment;
         }
     }
 }
