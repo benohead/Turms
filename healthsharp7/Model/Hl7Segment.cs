@@ -12,7 +12,7 @@ namespace healthsharp7.Model
         }
 
         public string Name { get; }
-        internal bool IsParsed { get; set; }
+        internal bool IsParsed { get; private set; }
 
         public static Hl7Segment Parse(string segment)
         {
