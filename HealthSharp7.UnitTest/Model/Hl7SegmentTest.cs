@@ -2,7 +2,7 @@ using System;
 using healthsharp7.Model;
 using Xunit;
 
-namespace healthsharp7.utest.Model
+namespace healthsharp7.UnitTest.Model
 {
     public class Hl7SegmentTest
     {

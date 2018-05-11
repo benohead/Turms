@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("healthsharp7.utest")]
+[assembly: InternalsVisibleTo("HealthSharp7.UnitTest")]
 namespace healthsharp7.Model
 {
     public class Hl7Segment

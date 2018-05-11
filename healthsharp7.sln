@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2000
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "healthsharp7.utest", "healthsharp7.utest\healthsharp7.utest.csproj", "{4C53D1D0-CEF0-4CAA-B682-770BBF7B7768}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthSharp7.UnitTest", "HealthSharp7.UnitTest\HealthSharp7.UnitTest.csproj", "{4C53D1D0-CEF0-4CAA-B682-770BBF7B7768}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "healthsharp7", "healthsharp7\healthsharp7.csproj", "{C0726919-B694-48BC-9AB5-5FBA8EB631C5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthSharp7", "HealthSharp7\HealthSharp7.csproj", "{C0726919-B694-48BC-9AB5-5FBA8EB631C5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
