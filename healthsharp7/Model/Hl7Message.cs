@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using HealthSharp7.Model;
 
 namespace healthsharp7.Model
@@ -18,6 +19,8 @@ namespace healthsharp7.Model
             }
         }
 
+        #region constructors
+
         public Hl7Message() : this(new Hl7Encoding())
         {
         }
@@ -34,9 +37,29 @@ namespace healthsharp7.Model
             Value = message;
         }
 
-        public override string ToString()
+        #endregion
+
+        #region operators
+
+        public Hl7Element this[string query]
         {
-            return string.Join(Encoding.SegmentSeparator[0], Segments.Select(f => f.ToString()));
+            get
+            {
+                EnsureFullyParsed();
+                List<string> queryParts = query.Split(new[] { '.' }).ToList();
+                var segmentName = queryParts[0];
+                var segment = segmentsInternal.FirstOrDefault(s => s.Name == segmentName);
+                if (queryParts.Count == 1)
+                {
+                    return segment;
+                }
+                var index = int.Parse(queryParts[1]);
+                if (segment != null)
+                {
+                    return segment[index];
+                }
+                return null;
+            }
         }
 
         public static Hl7Message operator +(Hl7Message message, Hl7Segment segment)
@@ -50,6 +73,15 @@ namespace healthsharp7.Model
             message += Hl7Segment.Parse(segment, message.Encoding);
             return message;
         }
+
+        #endregion
+
+        public override string ToString()
+        {
+            return string.Join(Encoding.SegmentSeparator[0], Segments.Select(f => f.ToString()));
+        }
+
+        #region parsing
 
         public static Hl7Message Parse(string message)
         {
@@ -73,5 +105,8 @@ namespace healthsharp7.Model
             }
             IsParsed = true;
         }
+
+        #endregion
+        
     }
 }

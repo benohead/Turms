@@ -8,6 +8,9 @@ namespace healthsharp7.Model
     public class Hl7Segment: Hl7Element
     {
         public string Name { get; }
+        private List<Hl7Field> Fields { get; }
+
+        #region constructors
 
         public Hl7Segment() : this(new Hl7Encoding())
         {
@@ -20,7 +23,7 @@ namespace healthsharp7.Model
             Fields = new List<Hl7Field>();
         }
 
-        public Hl7Segment(string name, Hl7Encoding encoding) : this(encoding)
+        private Hl7Segment(string name, Hl7Encoding encoding) : this(encoding)
         {
             Name = name;
         }
@@ -30,6 +33,10 @@ namespace healthsharp7.Model
             Value = segment;
         }
 
+        #endregion constructors
+
+        #region operators
+
         public Hl7Field this[int i]
         {
             get
@@ -37,14 +44,6 @@ namespace healthsharp7.Model
                 EnsureFullyParsed();
                 return Fields.Count > i ? Fields[i] : new Hl7Field("");
             }
-        }
-
-        private List<Hl7Field> Fields { get; }
-
-        public override string ToString()
-        {
-            EnsureFullyParsed();
-            return string.Join(Encoding.FieldSeparator, Fields.Select(f => f.ToString()));
         }
 
         public static Hl7Segment operator +(Hl7Segment segment, Hl7Field field)
@@ -58,6 +57,16 @@ namespace healthsharp7.Model
             segment += Hl7Field.Parse(field, segment.Encoding);
             return segment;
         }
+
+        #endregion
+
+        public override string ToString()
+        {
+            EnsureFullyParsed();
+            return string.Join(Encoding.FieldSeparator, Fields.Select(f => f.ToString()));
+        }
+
+        #region parsing
 
         public static Hl7Segment Parse(string segment)
         {
@@ -81,7 +90,7 @@ namespace healthsharp7.Model
 
         protected override void FullyParse()
         {
-            if (!String.IsNullOrEmpty(Value))
+            if (!string.IsNullOrEmpty(Value))
             {
                 var fields = Value.TrimEnd(Encoding.FieldSeparator).Split(Encoding.FieldSeparator).ToList();
                 Fields.Clear();
@@ -90,5 +99,7 @@ namespace healthsharp7.Model
                 IsParsed = true;
             }
         }
+
+        #endregion parsing
     }
 }

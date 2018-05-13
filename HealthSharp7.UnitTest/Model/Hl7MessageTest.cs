@@ -54,12 +54,15 @@ PV1|1|O|||||^^^^^^^^|^^^^^^^^";
         [Fact]
         public void ShouldBeParsingMessageWithOtherSegmentSeparator()
         {
-            //Act
+            //Arrange
             var encoding = new Hl7Encoding {SegmentSeparator = new[] {"$"}};
             var message = Hl7Message.Parse(AdtA01MessageDollarAsSegmentSeparator, encoding);
 
+            //Act
+            var messageString = message.ToString();
+
             //Assert
-            Assert.Equal(AdtA01MessageDollarAsSegmentSeparator, message.ToString());
+            Assert.Equal(AdtA01MessageDollarAsSegmentSeparator, messageString);
         }
 
         [Fact]
@@ -72,18 +75,76 @@ PV1|1|O|||||^^^^^^^^|^^^^^^^^";
                           + "PID|1||135769||MOUSE^MICKEY^||19281118|M|||123 Main St.^^Lake Buena Vista^FL^32830||(407)939-1289^^^theMainMouse@disney.com|||||1719|99999999"
                           + "PV1|1|O|||||^^^^^^^^|^^^^^^^^";
 
+            //Act
+            var messageString = message.ToString();
+
             //Assert
-            Assert.Equal(AdtA01MessageNoTrailingPipes, message.ToString());
+            Assert.Equal(AdtA01MessageNoTrailingPipes, messageString);
+        }
+
+        [Fact]
+        public void ShouldReturnTheSegment()
+        {
+            //Arrange
+            var message = Hl7Message.Parse(AdtA01Message);
+
+            //Act
+            var segment = message["EVN"].ToString();
+
+            //Assert
+            Assert.Equal("EVN|A01|20110613083617", segment);
+        }
+
+        [Fact]
+        public void ShouldReturnNullForNotFoundSegments()
+        {
+            //Arrange
+            var message = Hl7Message.Parse(AdtA01Message);
+
+            //Act
+            var segment = message["OBX"];
+
+            //Assert
+            Assert.Null(segment);
+        }
+
+        [Fact]
+        public void ShouldReturnTheField()
+        {
+            //Arrange
+            var message = Hl7Message.Parse(AdtA01Message);
+
+            //Act
+            var field = message["EVN.1"].ToString();
+
+            //Assert
+            Assert.Equal("A01", field);
+        }
+
+        [Fact]
+        public void ShouldReturnNullForNotFoundFields()
+        {
+            //Arrange
+            var message = Hl7Message.Parse(AdtA01Message);
+
+            //Act
+            var field = message["OBX.1"];
+
+            //Assert
+            Assert.Null(field);
         }
 
         [Fact]
         public void ToStringReturnsOriginalStringWithoutTrailingPipes()
         {
-            //Act
+            //Arrange
             var message = Hl7Message.Parse(AdtA01MessageNoTrailingPipes);
 
+            //Act
+            var messageString = message.ToString();
+
             //Assert
-            Assert.Equal(AdtA01MessageNoTrailingPipes, message.ToString());
+            Assert.Equal(AdtA01MessageNoTrailingPipes, messageString);
         }
     }
 }
