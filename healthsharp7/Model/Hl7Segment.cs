@@ -1,23 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using HealthSharp7.Model;
-
-[assembly: InternalsVisibleTo("HealthSharp7.UnitTest")]
 
 namespace healthsharp7.Model
 {
-    public class Hl7Segment
+    public class Hl7Segment: Hl7Element
     {
-        private Hl7Encoding Encoding { get; }
-        private string Value { get; }
         public string Name { get; }
-        internal bool IsParsed { get; private set; }
 
         private Hl7Segment(Hl7Encoding encoding)
         {
             Encoding = encoding;
+            Value = String.Empty;
         }
 
         private Hl7Segment(string name, Hl7Encoding encoding) : this(encoding)
@@ -35,30 +30,16 @@ namespace healthsharp7.Model
         {
             get
             {
-                EnsureFieldsParsed();
+                EnsureFullyParsed();
                 return Fields.Count > i ? Fields[i] : new Hl7Field("");
             }
         }
 
         private List<Hl7Field> Fields { get; }
 
-        private void EnsureFieldsParsed()
-        {
-            if (!IsParsed)
-                ParseFields();
-        }
-
-        private void ParseFields()
-        {
-            var fields = Value.TrimEnd(Encoding.FieldSeparator).Split(Encoding.FieldSeparator).ToList();
-            Fields.Clear();
-            foreach (var field in fields)
-                Fields.Add(Hl7Field.Parse(field));
-        }
-
         public override string ToString()
         {
-            EnsureFieldsParsed();
+            EnsureFullyParsed();
             return string.Join(Encoding.FieldSeparator, Fields.Select(f => f.ToString()));
         }
 
@@ -80,6 +61,18 @@ namespace healthsharp7.Model
             if (segment.Length <= 4)
                 hl7Segment.IsParsed = true;
             return hl7Segment;
+        }
+
+        protected override void FullyParse()
+        {
+            if (!String.IsNullOrEmpty(Value))
+            {
+                var fields = Value.TrimEnd(Encoding.FieldSeparator).Split(Encoding.FieldSeparator).ToList();
+                Fields.Clear();
+                foreach (var field in fields)
+                    Fields.Add(Hl7Field.Parse(field));
+                IsParsed = true;
+            }
         }
     }
 }
