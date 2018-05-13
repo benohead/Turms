@@ -32,9 +32,15 @@ namespace healthsharp7.Model
             segmentsInternal = new List<Hl7Segment>();
         }
 
-        private Hl7Message(string message, Hl7Encoding encoding): this(encoding)
+        private Hl7Message(string message, Hl7Encoding encoding) : this(encoding)
         {
             Value = message;
+        }
+
+        private Hl7Message(string message) : this(new Hl7Encoding())
+        {
+            Value = message;
+            Encoding.FieldSeparator = message[3];
         }
 
         #endregion
@@ -85,14 +91,12 @@ namespace healthsharp7.Model
 
         public static Hl7Message Parse(string message)
         {
-            return Parse(message, new Hl7Encoding());
+            return new Hl7Message(message);
         }
 
         public static Hl7Message Parse(string message, Hl7Encoding encoding)
         {
-            var hl7Message = new Hl7Message(message, encoding);
-
-            return hl7Message;
+            return new Hl7Message(message, encoding);
         }
 
         protected override void FullyParse()

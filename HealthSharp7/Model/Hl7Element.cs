@@ -7,7 +7,7 @@ namespace healthsharp7.Model
 {
     public abstract class Hl7Element
     {
-        protected Hl7Encoding Encoding { get; set; }
+        protected internal Hl7Encoding Encoding { get; set; }
         internal bool IsParsed { get; set; }
         protected string Value { get; set; }
 
