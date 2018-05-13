@@ -19,10 +19,12 @@ PID|1||135769||MOUSE^MICKEY^||19281118|M|||123 Main St.^^Lake Buena Vista^FL^328
 PV1|1|O|||||^^^^^^^^|^^^^^^^^";
 
         private const string AdtA01MessageDollarAsSegmentSeparator =
-                @"MSH|^~\&|SENDING_APPLICATION|SENDING_FACILITY|RECEIVING_APPLICATION|RECEIVING_FACILITY|20110613083617||ADT^A01|934576120110613083617|P|2.3$EVN|A01|20110613083617$PID|1||135769||MOUSE^MICKEY^||19281118|M|||123 Main St.^^Lake Buena Vista^FL^32830||(407)939-1289^^^theMainMouse@disney.com|||||1719|99999999$PV1|1|O|||||^^^^^^^^|^^^^^^^^";
+                @"MSH|^~\&|SENDING_APPLICATION|SENDING_FACILITY|RECEIVING_APPLICATION|RECEIVING_FACILITY|20110613083617||ADT^A01|934576120110613083617|P|2.3$EVN|A01|20110613083617$PID|1||135769||MOUSE^MICKEY^||19281118|M|||123 Main St.^^Lake Buena Vista^FL^32830||(407)939-1289^^^theMainMouse@disney.com|||||1719|99999999$PV1|1|O|||||^^^^^^^^|^^^^^^^^"
+            ;
 
         private const string MessageMshOnlyOtherFieldDelimiter =
-                @"MSH$^~\&$SENDING_APPLICATION$SENDING_FACILITY$RECEIVING_APPLICATION$RECEIVING_FACILITY$20110613083617$$ADT^A01$934576120110613083617$P$2.3$$$$";
+                @"MSH$^~\&$SENDING_APPLICATION$SENDING_FACILITY$RECEIVING_APPLICATION$RECEIVING_FACILITY$20110613083617$$ADT^A01$934576120110613083617$P$2.3$$$$"
+            ;
 
         [Fact]
         public void GetSegmentsShouldReturnExpectedSegmentCount()
@@ -85,16 +87,27 @@ PV1|1|O|||||^^^^^^^^|^^^^^^^^";
         }
 
         [Fact]
-        public void ShouldReturnTheSegment()
+        public void ShouldReadDelimitersFromMessage()
+        {
+            //Act
+            var message = Hl7Message.Parse(MessageMshOnlyOtherFieldDelimiter);
+
+            //Assert
+            Assert.Equal('$', message.Encoding.FieldSeparator);
+            Assert.Equal("RECEIVING_APPLICATION", message["MSH.4"].ToString());
+        }
+
+        [Fact]
+        public void ShouldReturnNullForNotFoundFields()
         {
             //Arrange
             var message = Hl7Message.Parse(AdtA01Message);
 
             //Act
-            var segment = message["EVN"].ToString();
+            var field = message["OBX.1"];
 
             //Assert
-            Assert.Equal("EVN|A01|20110613083617", segment);
+            Assert.Null(field);
         }
 
         [Fact]
@@ -124,16 +137,16 @@ PV1|1|O|||||^^^^^^^^|^^^^^^^^";
         }
 
         [Fact]
-        public void ShouldReturnNullForNotFoundFields()
+        public void ShouldReturnTheSegment()
         {
             //Arrange
             var message = Hl7Message.Parse(AdtA01Message);
 
             //Act
-            var field = message["OBX.1"];
+            var segment = message["EVN"].ToString();
 
             //Assert
-            Assert.Null(field);
+            Assert.Equal("EVN|A01|20110613083617", segment);
         }
 
         [Fact]
@@ -147,17 +160,6 @@ PV1|1|O|||||^^^^^^^^|^^^^^^^^";
 
             //Assert
             Assert.Equal(AdtA01MessageNoTrailingPipes, messageString);
-        }
-
-        [Fact]
-        public void ShouldReadDelimitersFromMessage()
-        {
-            //Act
-            var message = Hl7Message.Parse(MessageMshOnlyOtherFieldDelimiter);
-
-            //Assert
-            Assert.Equal('$', message.Encoding.FieldSeparator);
-            Assert.Equal("RECEIVING_APPLICATION", message["MSH.4"].ToString());
         }
     }
 }

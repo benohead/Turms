@@ -2,9 +2,9 @@
 
 namespace healthsharp7.Model
 {
-    public class Hl7Field: Hl7Element
+    public class Hl7Field : Hl7Element
     {
-        public Hl7Field(string value): this(value, new Hl7Encoding())
+        public Hl7Field(string value) : this(value, new Hl7Encoding())
         {
         }
 

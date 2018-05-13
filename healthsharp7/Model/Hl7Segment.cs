@@ -5,10 +5,16 @@ using HealthSharp7.Model;
 
 namespace healthsharp7.Model
 {
-    public class Hl7Segment: Hl7Element
+    public class Hl7Segment : Hl7Element
     {
         public string Name { get; }
         private List<Hl7Field> Fields { get; }
+
+        public override string ToString()
+        {
+            EnsureFullyParsed();
+            return string.Join(Encoding.FieldSeparator, Fields.Select(f => f.ToString()));
+        }
 
         #region constructors
 
@@ -19,7 +25,7 @@ namespace healthsharp7.Model
         private Hl7Segment(Hl7Encoding encoding)
         {
             Encoding = encoding;
-            Value = String.Empty;
+            Value = string.Empty;
             Fields = new List<Hl7Field>();
         }
 
@@ -59,12 +65,6 @@ namespace healthsharp7.Model
         }
 
         #endregion
-
-        public override string ToString()
-        {
-            EnsureFullyParsed();
-            return string.Join(Encoding.FieldSeparator, Fields.Select(f => f.ToString()));
-        }
 
         #region parsing
 

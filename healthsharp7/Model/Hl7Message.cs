@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using HealthSharp7.Model;
 
 namespace healthsharp7.Model
 {
-    public class Hl7Message: Hl7Element
+    public class Hl7Message : Hl7Element
     {
         private readonly List<Hl7Segment> segmentsInternal;
 
@@ -19,6 +18,11 @@ namespace healthsharp7.Model
             }
         }
 
+        public override string ToString()
+        {
+            return string.Join(Encoding.SegmentSeparator[0], Segments.Select(f => f.ToString()));
+        }
+
         #region constructors
 
         public Hl7Message() : this(new Hl7Encoding())
@@ -28,7 +32,7 @@ namespace healthsharp7.Model
         private Hl7Message(Hl7Encoding encoding)
         {
             Encoding = encoding;
-            Value = String.Empty;
+            Value = string.Empty;
             segmentsInternal = new List<Hl7Segment>();
         }
 
@@ -52,19 +56,13 @@ namespace healthsharp7.Model
             get
             {
                 EnsureFullyParsed();
-                List<string> queryParts = query.Split(new[] { '.' }).ToList();
+                var queryParts = query.Split(new[] {'.'}).ToList();
                 var segmentName = queryParts[0];
                 var segment = segmentsInternal.FirstOrDefault(s => s.Name == segmentName);
                 if (queryParts.Count == 1)
-                {
                     return segment;
-                }
                 var index = int.Parse(queryParts[1]);
-                if (segment != null)
-                {
-                    return segment[index];
-                }
-                return null;
+                return segment?[index];
             }
         }
 
@@ -82,11 +80,6 @@ namespace healthsharp7.Model
 
         #endregion
 
-        public override string ToString()
-        {
-            return string.Join(Encoding.SegmentSeparator[0], Segments.Select(f => f.ToString()));
-        }
-
         #region parsing
 
         public static Hl7Message Parse(string message)
@@ -101,7 +94,8 @@ namespace healthsharp7.Model
 
         protected override void FullyParse()
         {
-            if (!String.IsNullOrEmpty(Value)) {
+            if (!string.IsNullOrEmpty(Value))
+            {
                 var segments = Value.Split(Encoding.SegmentSeparator, StringSplitOptions.None).ToList();
                 segmentsInternal.Clear();
                 foreach (var segment in segments)
@@ -111,6 +105,5 @@ namespace healthsharp7.Model
         }
 
         #endregion
-        
     }
 }
