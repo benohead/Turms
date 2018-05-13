@@ -22,11 +22,21 @@ namespace healthsharp7.Model
                 Segments.Add(Hl7Segment.Parse(segment));
         }
 
+        public Hl7Message() : this(new Hl7Encoding())
+        {
+        }
+
         public List<Hl7Segment> Segments { get; }
 
         public override string ToString()
         {
             return string.Join(Encoding.SegmentSeparator[0], Segments.Select(f => f.ToString()));
+        }
+
+        public static Hl7Message operator +(Hl7Message message, Hl7Segment segment)
+        {
+            message.Segments.Add(segment);
+            return message;
         }
 
         public static Hl7Message Parse(string message)
