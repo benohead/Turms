@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace HealthSharp7.Model
+﻿namespace HealthSharp7.Model
 {
     public class Hl7Encoding
     {

@@ -15,7 +15,7 @@ namespace healthsharp7.Model
             Encoding = encoding;
         }
 
-        private Hl7Segment(string name, Hl7Encoding encoding): this(encoding)
+        private Hl7Segment(string name, Hl7Encoding encoding) : this(encoding)
         {
             Name = name;
             Fields = new List<Hl7Field>();

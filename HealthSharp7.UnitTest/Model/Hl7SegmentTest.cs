@@ -13,6 +13,16 @@ namespace healthsharp7.UnitTest.Model
         private const string EvnSegmentDollarAsSeparator = "EVN$A01$20110613083617$$$";
 
         [Fact]
+        public void GettingNonExistingFieldShouldReturnFieldWithoutValue()
+        {
+            //Act
+            var segment = Hl7Segment.Parse(EvnSegmentTrimmed);
+
+            //Assert
+            Assert.Equal("", segment[4].ToString());
+        }
+
+        [Fact]
         public void ParsingNullValueShouldThrowAnArgumentNullException()
         {
             Assert.Throws<ArgumentNullException>(() => Hl7Segment.Parse(null));
@@ -36,6 +46,17 @@ namespace healthsharp7.UnitTest.Model
             //Assert
             Assert.True(segment.IsParsed);
             Assert.True(segment2.IsParsed);
+        }
+
+        [Fact]
+        public void ShouldBeParsingMessageWithOtherSegmentSeparator()
+        {
+            //Act
+            var encoding = new Hl7Encoding {FieldSeparator = '$'};
+            var segment = Hl7Segment.Parse(EvnSegmentDollarAsSeparatorTrimmed, encoding);
+
+            //Assert
+            Assert.Equal(EvnSegmentDollarAsSeparatorTrimmed, segment.ToString());
         }
 
         [Fact]
@@ -79,27 +100,6 @@ namespace healthsharp7.UnitTest.Model
             //Assert
             Assert.Equal(EvnSegmentTrimmed, segment.ToString());
             Assert.Equal(EvnSegmentDollarAsSeparatorTrimmed, segment2.ToString());
-        }
-
-        [Fact]
-        public void GettingNonExistingFieldShouldReturnFieldWithoutValue()
-        {
-            //Act
-            var segment = Hl7Segment.Parse(EvnSegmentTrimmed);
-
-            //Assert
-            Assert.Equal("", segment[4].ToString());
-        }
-
-        [Fact]
-        public void ShouldBeParsingMessageWithOtherSegmentSeparator()
-        {
-            //Act
-            Hl7Encoding encoding = new Hl7Encoding { FieldSeparator = '$' };
-            var segment = Hl7Segment.Parse(EvnSegmentDollarAsSeparatorTrimmed, encoding);
-
-            //Assert
-            Assert.Equal(EvnSegmentDollarAsSeparatorTrimmed, segment.ToString());
         }
     }
 }

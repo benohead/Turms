@@ -13,8 +13,6 @@ namespace healthsharp7.Model
             Segments = new List<Hl7Segment>();
         }
 
-        private Hl7Encoding Encoding { get; }
-
         private Hl7Message(List<string> segments, Hl7Encoding encoding) : this(encoding)
         {
             Segments.Clear();
@@ -25,6 +23,8 @@ namespace healthsharp7.Model
         public Hl7Message() : this(new Hl7Encoding())
         {
         }
+
+        private Hl7Encoding Encoding { get; }
 
         public List<Hl7Segment> Segments { get; }
 
