@@ -18,6 +18,9 @@ namespace healthsharp7.Model
             }
         }
 
+        public string MessageControlId => this["MSH.9"].ToString();
+        public string MessageVersion => this["MSH.11"].ToString();
+
         public override string ToString()
         {
             return string.Join(Encoding.SegmentSeparator[0], Segments.Select(f => f.ToString()));
@@ -38,11 +41,15 @@ namespace healthsharp7.Model
 
         private Hl7Message(string message, Hl7Encoding encoding) : this(encoding)
         {
+            if (!message.StartsWith("MSH"))
+                throw new ArgumentException("HL7 messages should start with an MSH segment", nameof(message));
             Value = message;
         }
 
         private Hl7Message(string message) : this(new Hl7Encoding())
         {
+            if (!message.StartsWith("MSH"))
+                throw new ArgumentException("HL7 messages should start with an MSH segment", nameof(message));
             Value = message;
             Encoding.FieldSeparator = message[3];
         }

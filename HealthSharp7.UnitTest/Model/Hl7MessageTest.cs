@@ -1,3 +1,4 @@
+using System;
 using healthsharp7.Model;
 using HealthSharp7.Model;
 using Xunit;
@@ -53,6 +54,13 @@ PV1|1|O|||||^^^^^^^^|^^^^^^^^";
             Assert.Equal("EVN", segments[1].Name);
             Assert.Equal("PID", segments[2].Name);
             Assert.Equal("PV1", segments[3].Name);
+        }
+
+        [Fact]
+        public void MessageShouldStartWithAnMshSegment()
+        {
+            //Assert
+            Assert.Throws<ArgumentException>(() => Hl7Message.Parse("MSG|1"));
         }
 
         [Fact]
@@ -134,6 +142,32 @@ PV1|1|O|||||^^^^^^^^|^^^^^^^^";
 
             //Assert
             Assert.Equal("A01", field);
+        }
+
+        [Fact]
+        public void ShouldReturnTheMessageControlId()
+        {
+            //Arrange
+            var message = Hl7Message.Parse(AdtA01Message);
+
+            //Act
+            var controlId = message.MessageControlId;
+
+            //Assert
+            Assert.Equal("934576120110613083617", controlId);
+        }
+
+        [Fact]
+        public void ShouldReturnTheMessageVersion()
+        {
+            //Arrange
+            var message = Hl7Message.Parse(AdtA01Message);
+
+            //Act
+            var version = message.MessageVersion;
+
+            //Assert
+            Assert.Equal("2.3", version);
         }
 
         [Fact]
