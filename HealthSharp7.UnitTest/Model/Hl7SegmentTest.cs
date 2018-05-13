@@ -1,11 +1,17 @@
 using System;
 using healthsharp7.Model;
+using HealthSharp7.Model;
 using Xunit;
 
 namespace healthsharp7.UnitTest.Model
 {
     public class Hl7SegmentTest
     {
+        private const string EvnSegmentTrimmed = "EVN|A01|20110613083617";
+        private const string EvnSegment = "EVN|A01|20110613083617|||";
+        private const string EvnSegmentDollarAsSeparatorTrimmed = "EVN$A01$20110613083617";
+        private const string EvnSegmentDollarAsSeparator = "EVN$A01$20110613083617$$$";
+
         [Fact]
         public void ParsingNullValueShouldThrowAnArgumentNullException()
         {
@@ -36,7 +42,7 @@ namespace healthsharp7.UnitTest.Model
         public void ShouldLazyParseSegments()
         {
             //Act
-            var segment = Hl7Segment.Parse("EVN|A01|20110613083617|||");
+            var segment = Hl7Segment.Parse(EvnSegment);
 
             //Assert
             Assert.False(segment.IsParsed);
@@ -56,7 +62,7 @@ namespace healthsharp7.UnitTest.Model
         public void ShouldReturnProperFieldValueUsingArrayNotation()
         {
             //Act
-            var segment = Hl7Segment.Parse("EVN|A01|20110613083617|||");
+            var segment = Hl7Segment.Parse(EvnSegment);
 
             //Assert
             Assert.Equal("A01", segment[1].ToString());
@@ -66,21 +72,34 @@ namespace healthsharp7.UnitTest.Model
         [Fact]
         public void ToStringReturnsOriginalStringWithoutTrailingPipes()
         {
-            //Act
-            var segment = Hl7Segment.Parse("EVN|A01|20110613083617|||");
+            //Arrange
+            var segment = Hl7Segment.Parse(EvnSegment);
+            var segment2 = Hl7Segment.Parse(EvnSegmentDollarAsSeparator, new Hl7Encoding {FieldSeparator = '$'});
 
             //Assert
-            Assert.Equal("EVN|A01|20110613083617", segment.ToString());
+            Assert.Equal(EvnSegmentTrimmed, segment.ToString());
+            Assert.Equal(EvnSegmentDollarAsSeparatorTrimmed, segment2.ToString());
         }
 
         [Fact]
         public void GettingNonExistingFieldShouldReturnFieldWithoutValue()
         {
             //Act
-            var segment = Hl7Segment.Parse("EVN|A01|20110613083617");
+            var segment = Hl7Segment.Parse(EvnSegmentTrimmed);
 
             //Assert
             Assert.Equal("", segment[4].ToString());
+        }
+
+        [Fact]
+        public void ShouldBeParsingMessageWithOtherSegmentSeparator()
+        {
+            //Act
+            Hl7Encoding encoding = new Hl7Encoding { FieldSeparator = '$' };
+            var segment = Hl7Segment.Parse(EvnSegmentDollarAsSeparatorTrimmed, encoding);
+
+            //Assert
+            Assert.Equal(EvnSegmentDollarAsSeparatorTrimmed, segment.ToString());
         }
     }
 }
