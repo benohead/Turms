@@ -20,7 +20,7 @@ namespace healthsharp7.Model
             Fields = new List<Hl7Field>();
         }
 
-        private Hl7Segment(string name, Hl7Encoding encoding) : this(encoding)
+        public Hl7Segment(string name, Hl7Encoding encoding) : this(encoding)
         {
             Name = name;
         }
@@ -55,7 +55,7 @@ namespace healthsharp7.Model
 
         public static Hl7Segment operator +(Hl7Segment segment, string field)
         {
-            segment += new Hl7Field(field, segment.Encoding);
+            segment += Hl7Field.Parse(field, segment.Encoding);
             return segment;
         }
 

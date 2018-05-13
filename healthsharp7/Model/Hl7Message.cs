@@ -45,6 +45,12 @@ namespace healthsharp7.Model
             return message;
         }
 
+        public static Hl7Message operator +(Hl7Message message, string segment)
+        {
+            message += Hl7Segment.Parse(segment, message.Encoding);
+            return message;
+        }
+
         public static Hl7Message Parse(string message)
         {
             return Parse(message, new Hl7Encoding());
