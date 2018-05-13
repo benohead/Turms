@@ -2,12 +2,12 @@
 {
     public class Hl7Field
     {
+        private string Value { get; }
+
         internal Hl7Field(string value)
         {
             Value = value;
         }
-
-        private string Value { get; }
 
         public override string ToString()
         {

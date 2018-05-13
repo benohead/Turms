@@ -7,6 +7,14 @@ namespace healthsharp7.Model
 {
     public class Hl7Message
     {
+        private Hl7Encoding Encoding { get; }
+
+        public List<Hl7Segment> Segments { get; }
+
+        public Hl7Message() : this(new Hl7Encoding())
+        {
+        }
+
         private Hl7Message(Hl7Encoding encoding)
         {
             Encoding = encoding;
@@ -19,14 +27,6 @@ namespace healthsharp7.Model
             foreach (var segment in segments)
                 Segments.Add(Hl7Segment.Parse(segment));
         }
-
-        public Hl7Message() : this(new Hl7Encoding())
-        {
-        }
-
-        private Hl7Encoding Encoding { get; }
-
-        public List<Hl7Segment> Segments { get; }
 
         public override string ToString()
         {

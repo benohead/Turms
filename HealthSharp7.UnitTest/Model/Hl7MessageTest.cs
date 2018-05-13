@@ -69,7 +69,7 @@ PV1|1|O|||||^^^^^^^^|^^^^^^^^";
             var message = new Hl7Message()
                           + Hl7Segment.Parse(
                               "MSH|^~\\&|SENDING_APPLICATION|SENDING_FACILITY|RECEIVING_APPLICATION|RECEIVING_FACILITY|20110613083617||ADT^A01|934576120110613083617|P|2.3")
-                          + Hl7Segment.Parse("EVN|A01|20110613083617")
+                          + Hl7Segment.Parse("EVN|A01|20110613083617|||")
                           + Hl7Segment.Parse(
                               "PID|1||135769||MOUSE^MICKEY^||19281118|M|||123 Main St.^^Lake Buena Vista^FL^32830||(407)939-1289^^^theMainMouse@disney.com|||||1719|99999999")
                           + Hl7Segment.Parse("PV1|1|O|||||^^^^^^^^|^^^^^^^^");

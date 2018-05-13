@@ -10,6 +10,11 @@ namespace healthsharp7.Model
 {
     public class Hl7Segment
     {
+        private Hl7Encoding Encoding { get; }
+        private string Value { get; }
+        public string Name { get; }
+        internal bool IsParsed { get; private set; }
+
         private Hl7Segment(Hl7Encoding encoding)
         {
             Encoding = encoding;
@@ -25,11 +30,6 @@ namespace healthsharp7.Model
         {
             Value = segment;
         }
-
-        private Hl7Encoding Encoding { get; }
-        private string Value { get; }
-        public string Name { get; }
-        internal bool IsParsed { get; private set; }
 
         public Hl7Field this[int i]
         {
