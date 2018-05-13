@@ -9,16 +9,20 @@ namespace healthsharp7.Model
     {
         public string Name { get; }
 
+        public Hl7Segment() : this(new Hl7Encoding())
+        {
+        }
+
         private Hl7Segment(Hl7Encoding encoding)
         {
             Encoding = encoding;
             Value = String.Empty;
+            Fields = new List<Hl7Field>();
         }
 
         private Hl7Segment(string name, Hl7Encoding encoding) : this(encoding)
         {
             Name = name;
-            Fields = new List<Hl7Field>();
         }
 
         private Hl7Segment(string name, string segment, Hl7Encoding encoding) : this(name, encoding)
@@ -41,6 +45,18 @@ namespace healthsharp7.Model
         {
             EnsureFullyParsed();
             return string.Join(Encoding.FieldSeparator, Fields.Select(f => f.ToString()));
+        }
+
+        public static Hl7Segment operator +(Hl7Segment segment, Hl7Field field)
+        {
+            segment.Fields.Add(field);
+            return segment;
+        }
+
+        public static Hl7Segment operator +(Hl7Segment segment, string field)
+        {
+            segment += new Hl7Field(field, segment.Encoding);
+            return segment;
         }
 
         public static Hl7Segment Parse(string segment)
@@ -70,7 +86,7 @@ namespace healthsharp7.Model
                 var fields = Value.TrimEnd(Encoding.FieldSeparator).Split(Encoding.FieldSeparator).ToList();
                 Fields.Clear();
                 foreach (var field in fields)
-                    Fields.Add(Hl7Field.Parse(field));
+                    Fields.Add(Hl7Field.Parse(field, Encoding));
                 IsParsed = true;
             }
         }

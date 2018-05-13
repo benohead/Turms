@@ -63,7 +63,7 @@ namespace healthsharp7.Model
                 var segments = Value.Split(Encoding.SegmentSeparator, StringSplitOptions.None).ToList();
                 segmentsInternal.Clear();
                 foreach (var segment in segments)
-                    segmentsInternal.Add(Hl7Segment.Parse(segment));
+                    segmentsInternal.Add(Hl7Segment.Parse(segment, Encoding));
             }
             IsParsed = true;
         }

@@ -101,5 +101,15 @@ namespace healthsharp7.UnitTest.Model
             Assert.Equal(EvnSegmentTrimmed, segment.ToString());
             Assert.Equal(EvnSegmentDollarAsSeparatorTrimmed, segment2.ToString());
         }
+
+        [Fact]
+        public void ShouldParseCreatedSegment()
+        {
+            //Arrange
+            var segment = new Hl7Segment() + "EVN" + "A01" + "20110613083617";
+
+            //Assert
+            Assert.Equal(EvnSegmentTrimmed, segment.ToString());
+        }
     }
 }
