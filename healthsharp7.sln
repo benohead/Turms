@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2000
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthSharp7.UnitTest", "HealthSharp7.UnitTest\HealthSharp7.UnitTest.csproj", "{4C53D1D0-CEF0-4CAA-B682-770BBF7B7768}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HealthSharp7.UnitTest", "HealthSharp7.UnitTest\HealthSharp7.UnitTest.csproj", "{4C53D1D0-CEF0-4CAA-B682-770BBF7B7768}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthSharp7", "HealthSharp7\HealthSharp7.csproj", "{C0726919-B694-48BC-9AB5-5FBA8EB631C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HealthSharp7", "HealthSharp7\HealthSharp7.csproj", "{C0726919-B694-48BC-9AB5-5FBA8EB631C5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthSharp7.BDD", "HealthSharp7.BDD\HealthSharp7.BDD.csproj", "{AC2DD62A-811C-4D85-BA0F-E34F84394078}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{C0726919-B694-48BC-9AB5-5FBA8EB631C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C0726919-B694-48BC-9AB5-5FBA8EB631C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C0726919-B694-48BC-9AB5-5FBA8EB631C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC2DD62A-811C-4D85-BA0F-E34F84394078}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC2DD62A-811C-4D85-BA0F-E34F84394078}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC2DD62A-811C-4D85-BA0F-E34F84394078}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC2DD62A-811C-4D85-BA0F-E34F84394078}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

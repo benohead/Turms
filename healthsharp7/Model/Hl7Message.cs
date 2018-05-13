@@ -22,6 +22,11 @@ namespace healthsharp7.Model
 
         public List<Hl7Segment> Segments { get; }
 
+        public override string ToString()
+        {
+            return String.Join(LineSeparators[0], Segments.Select(f => f.ToString()));
+        }
+
         public static Hl7Message Parse(string message)
         {
             var segments = message.Split(LineSeparators, StringSplitOptions.None).ToList();
