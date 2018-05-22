@@ -145,6 +145,19 @@ PV1|1|O|||||^^^^^^^^|^^^^^^^^";
         }
 
         [Fact]
+        public void ShouldReturnTheMessageType()
+        {
+            //Arrange
+            var message = Hl7Message.Parse(AdtA01Message);
+
+            //Act
+            var controlId = message.MessageType;
+
+            //Assert
+            Assert.Equal("ADT^A01", controlId);
+        }
+
+        [Fact]
         public void ShouldReturnTheMessageControlId()
         {
             //Arrange
@@ -155,6 +168,19 @@ PV1|1|O|||||^^^^^^^^|^^^^^^^^";
 
             //Assert
             Assert.Equal("934576120110613083617", controlId);
+        }
+
+        [Fact]
+        public void ShouldReturnTheProcessingId()
+        {
+            //Arrange
+            var message = Hl7Message.Parse(AdtA01Message);
+
+            //Act
+            var processingId = message.ProcessingId;
+
+            //Assert
+            Assert.Equal("P", processingId);
         }
 
         [Fact]

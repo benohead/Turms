@@ -9,6 +9,11 @@ namespace healthsharp7.Model
     {
         private readonly List<Hl7Segment> segmentsInternal;
 
+        public string MessageType => this["MSH.8"].ToString();
+        public string MessageControlId => this["MSH.9"].ToString();
+        public string ProcessingId => this["MSH.10"].ToString();
+        public string MessageVersion => this["MSH.11"].ToString();
+
         public List<Hl7Segment> Segments
         {
             get
@@ -16,14 +21,6 @@ namespace healthsharp7.Model
                 EnsureFullyParsed();
                 return segmentsInternal;
             }
-        }
-
-        public string MessageControlId => this["MSH.9"].ToString();
-        public string MessageVersion => this["MSH.11"].ToString();
-
-        public override string ToString()
-        {
-            return string.Join(Encoding.SegmentSeparator[0], Segments.Select(f => f.ToString()));
         }
 
         #region constructors
@@ -41,20 +38,29 @@ namespace healthsharp7.Model
 
         private Hl7Message(string message, Hl7Encoding encoding) : this(encoding)
         {
-            if (!message.StartsWith("MSH"))
-                throw new ArgumentException("HL7 messages should start with an MSH segment", nameof(message));
+            CheckMessage(message);
             Value = message;
         }
 
         private Hl7Message(string message) : this(new Hl7Encoding())
         {
-            if (!message.StartsWith("MSH"))
-                throw new ArgumentException("HL7 messages should start with an MSH segment", nameof(message));
+            CheckMessage(message);
             Value = message;
             Encoding.FieldSeparator = message[3];
         }
 
+        private static void CheckMessage(string message)
+        {
+            if (!message.StartsWith("MSH"))
+                throw new ArgumentException("HL7 messages should start with an MSH segment", nameof(message));
+        }
+
         #endregion
+
+        public override string ToString()
+        {
+            return string.Join(Encoding.SegmentSeparator[0], Segments.Select(f => f.ToString()));
+        }
 
         #region operators
 
