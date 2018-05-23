@@ -4,4 +4,4 @@ mono: none
 dotnet: 2.0.0
 script:
   - dotnet restore
-  - dotnet test
+  - dotnet test Turms.UnitTest
