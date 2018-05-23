@@ -1,9 +1,8 @@
 using System;
-using healthsharp7.Model;
-using HealthSharp7.Model;
+using Turms.Model;
 using Xunit;
 
-namespace healthsharp7.UnitTest.Model
+namespace Turms.UnitTest.Model
 {
     public class Hl7SegmentTest
     {

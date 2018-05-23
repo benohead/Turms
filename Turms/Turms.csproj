@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
-    <AssemblyName>HealthSharp7</AssemblyName>
+    <AssemblyName>Turms</AssemblyName>
     <DebugType>Full</DebugType>
   </PropertyGroup>
 

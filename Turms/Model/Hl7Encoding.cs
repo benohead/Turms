@@ -1,4 +1,4 @@
-﻿namespace HealthSharp7.Model
+﻿namespace Turms.Model
 {
     public class Hl7Encoding
     {

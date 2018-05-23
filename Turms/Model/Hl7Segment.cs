@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using HealthSharp7.Model;
 
-namespace healthsharp7.Model
+namespace Turms.Model
 {
     public class Hl7Segment : Hl7Element
     {

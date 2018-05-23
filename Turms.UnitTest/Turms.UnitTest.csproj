@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\HealthSharp7\HealthSharp7.csproj" />
+    <ProjectReference Include="..\Turms\Turms.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,9 +1,8 @@
 ﻿using System.Runtime.CompilerServices;
-using HealthSharp7.Model;
 
-[assembly: InternalsVisibleTo("HealthSharp7.UnitTest")]
+[assembly: InternalsVisibleTo("Turms.UnitTest")]
 
-namespace healthsharp7.Model
+namespace Turms.Model
 {
     public abstract class Hl7Element
     {
