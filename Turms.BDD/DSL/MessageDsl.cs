@@ -4,7 +4,7 @@ using Xunit;
 
 namespace Turms.BDD.DSL
 {
-    internal class MessageDsl
+    internal static class MessageDsl
     {
         public static void SetMessageString(string message)
         {

@@ -72,13 +72,13 @@ namespace Turms.BDD
             this.ScenarioTearDown();
         }
         
-        [Xunit.FactAttribute(DisplayName="Parse and ADT^A01 message")]
+        [Xunit.FactAttribute(DisplayName="Parse ADT^A01 message")]
         [Xunit.TraitAttribute("FeatureTitle", "MessageParsing")]
-        [Xunit.TraitAttribute("Description", "Parse and ADT^A01 message")]
+        [Xunit.TraitAttribute("Description", "Parse ADT^A01 message")]
         [Xunit.TraitAttribute("Category", "mytag")]
-        public virtual void ParseAndADTA01Message()
+        public virtual void ParseADTA01Message()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Parse and ADT^A01 message", new string[] {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Parse ADT^A01 message", new string[] {
                         "mytag"});
 #line 7
 this.ScenarioSetup(scenarioInfo);
