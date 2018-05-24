@@ -4,29 +4,36 @@ using Xunit;
 
 namespace Turms.BDD.DSL
 {
-    internal static class MessageDsl
+    internal class MessageDsl
     {
-        public static void SetMessageString(string message)
+        private readonly ScenarioContext scenarioContext;
+
+        public MessageDsl(ScenarioContext scenarioContext)
         {
-            ScenarioContext.Current.Add("MessageString", message);
+            this.scenarioContext = scenarioContext;
         }
 
-        public static void ParseMessage()
+        public void SetMessageString(string message)
         {
-            var message = ScenarioContext.Current.Get<string>("MessageString");
+            scenarioContext.Add("MessageString", message);
+        }
+
+        public void ParseMessage()
+        {
+            var message = scenarioContext.Get<string>("MessageString");
             var parsedMessage = Hl7Message.Parse(message);
-            ScenarioContext.Current.Add("ParsedMessage", parsedMessage);
+            scenarioContext.Add("ParsedMessage", parsedMessage);
         }
 
-        public static void ConfirmPatientId(string expectedValue)
+        public void ConfirmPatientId(string expectedValue)
         {
-            var message = ScenarioContext.Current.Get<Hl7Message>("ParsedMessage");
+            var message = scenarioContext.Get<Hl7Message>("ParsedMessage");
             Assert.Equal(expectedValue, message["PID.3"].ToString());
         }
 
-        public static void ConfirmPatientName(string expectedValue)
+        public void ConfirmPatientName(string expectedValue)
         {
-            var message = ScenarioContext.Current.Get<Hl7Message>("ParsedMessage");
+            var message = scenarioContext.Get<Hl7Message>("ParsedMessage");
             Assert.Equal(expectedValue, message["PID.5"].ToString());
         }
     }

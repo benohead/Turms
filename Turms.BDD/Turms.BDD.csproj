@@ -24,12 +24,21 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>MessageParsing.feature</DependentUpon>
     </Compile>
+    <Compile Update="MessageProcessing.feature.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>MessageProcessing.feature</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
     <None Update="MessageParsing.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>MessageParsing.feature.cs</LastGenOutput>
+    </None>
+    <None Update="MessageProcessing.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>MessageProcessing.feature.cs</LastGenOutput>
     </None>
   </ItemGroup>
 
