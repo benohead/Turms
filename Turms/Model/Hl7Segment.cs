@@ -12,7 +12,7 @@ namespace Turms.Model
         public override string ToString()
         {
             EnsureFullyParsed();
-            return string.Join(Encoding.FieldSeparator, Fields.Select(f => f.ToString()));
+            return string.Join(Encoding.FieldSeparator.ToString(), Fields.Select(f => f.ToString())).TrimEnd(Encoding.FieldSeparator);
         }
 
         #region constructors

@@ -9,12 +9,8 @@ namespace Turms.UnitTest.Model
         private const string AdtA01Message =
             "MSH|^~\\&|SENDING_APPLICATION|SENDING_FACILITY|RECEIVING_APPLICATION|RECEIVING_FACILITY|20110613083617||ADT^A01|934576120110613083617|P|2.3||||\r\nEVN|A01|20110613083617|||\r\nPID|1||135769||MOUSE^MICKEY^||19281118|M|||123 Main St.^^Lake Buena Vista^FL^32830||(407)939-1289^^^theMainMouse@disney.com|||||1719|99999999||||||||||||||||||||\r\nPV1|1|O|||||^^^^^^^^|^^^^^^^^";
 
-        private const string AdtA01MessageNoTrailingPipes =
-            "MSH|^~\\&|SENDING_APPLICATION|SENDING_FACILITY|RECEIVING_APPLICATION|RECEIVING_FACILITY|20110613083617||ADT^A01|934576120110613083617|P|2.3\r\nEVN|A01|20110613083617\r\nPID|1||135769||MOUSE^MICKEY^||19281118|M|||123 Main St.^^Lake Buena Vista^FL^32830||(407)939-1289^^^theMainMouse@disney.com|||||1719|99999999\r\nPV1|1|O|||||^^^^^^^^|^^^^^^^^";
-
-        private const string AdtA01MessageDollarAsSegmentSeparator =
-                "MSH|^~\\&|SENDING_APPLICATION|SENDING_FACILITY|RECEIVING_APPLICATION|RECEIVING_FACILITY|20110613083617||ADT^A01|934576120110613083617|P|2.3$EVN|A01|20110613083617$PID|1||135769||MOUSE^MICKEY^||19281118|M|||123 Main St.^^Lake Buena Vista^FL^32830||(407)939-1289^^^theMainMouse@disney.com|||||1719|99999999$PV1|1|O|||||^^^^^^^^|^^^^^^^^"
-            ;
+        private const string AdtA01MessageNoTrailingSeparators =
+            "MSH|^~\\&|SENDING_APPLICATION|SENDING_FACILITY|RECEIVING_APPLICATION|RECEIVING_FACILITY|20110613083617||ADT^A01|934576120110613083617|P|2.3\r\nEVN|A01|20110613083617\r\nPID|1||135769||MOUSE^MICKEY||19281118|M|||123 Main St.^^Lake Buena Vista^FL^32830||(407)939-1289^^^theMainMouse@disney.com|||||1719|99999999\r\nPV1|1|O";
 
         private const string MessageMshOnlyOtherFieldDelimiter =
                 "MSH$^~\\&$SENDING_APPLICATION$SENDING_FACILITY$RECEIVING_APPLICATION$RECEIVING_FACILITY$20110613083617$$ADT^A01$934576120110613083617$P$2.3$$$$"
@@ -61,13 +57,13 @@ namespace Turms.UnitTest.Model
         {
             //Arrange
             var encoding = new Hl7Encoding {SegmentSeparator = new[] {"$"}};
-            var message = Hl7Message.Parse(AdtA01MessageDollarAsSegmentSeparator, encoding);
+            var message = Hl7Message.Parse(AdtA01Message.Replace("\r\n", "$"), encoding);
 
             //Act
             var messageString = message.ToString();
 
             //Assert
-            Assert.Equal(AdtA01MessageDollarAsSegmentSeparator, messageString);
+            Assert.Equal(AdtA01MessageNoTrailingSeparators.Replace("\r\n", "$"), messageString);
         }
 
         [Fact]
@@ -84,7 +80,7 @@ namespace Turms.UnitTest.Model
             var messageString = message.ToString();
 
             //Assert
-            Assert.Equal(AdtA01MessageNoTrailingPipes, messageString);
+            Assert.Equal(AdtA01MessageNoTrailingSeparators, messageString);
         }
 
         [Fact]
@@ -206,13 +202,13 @@ namespace Turms.UnitTest.Model
         public void ToStringReturnsOriginalStringWithoutTrailingPipes()
         {
             //Arrange
-            var message = Hl7Message.Parse(AdtA01MessageNoTrailingPipes);
+            var message = Hl7Message.Parse(AdtA01MessageNoTrailingSeparators);
 
             //Act
             var messageString = message.ToString();
 
             //Assert
-            Assert.Equal(AdtA01MessageNoTrailingPipes, messageString);
+            Assert.Equal(AdtA01MessageNoTrailingSeparators, messageString);
         }
     }
 }

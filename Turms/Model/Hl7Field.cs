@@ -1,4 +1,6 @@
-﻿namespace Turms.Model
+﻿using System;
+
+namespace Turms.Model
 {
     public class Hl7Field : Hl7Element
     {
@@ -6,9 +8,10 @@
         {
         }
 
-        internal Hl7Field(string value, Hl7Encoding encoding)
+        private Hl7Field(string value, Hl7Encoding encoding)
         {
-            Value = value;
+            if (encoding == null) throw new ArgumentNullException(nameof(encoding));
+            Value = value.TrimEnd(encoding.ComponentSeparator);
             Encoding = encoding;
         }
 

@@ -14,4 +14,23 @@
     <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Turms\Turms.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="MessageParsing.feature.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>MessageParsing.feature</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="MessageParsing.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>MessageParsing.feature.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
 </Project>
