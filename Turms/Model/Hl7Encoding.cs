@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Text;
 
 namespace Turms.Model
@@ -115,10 +114,10 @@ namespace Turms.Model
         //        sb.Append(t.ToString("X2"));
         //    }
 
-        //    return sb.ToString(); // returns: "48656C6C6F20776F726C64" for "Hello world"
+        //    return sb.ToString();
         //}
 
-        public static string FromHexString(string hexString)
+        private static string FromHexString(string hexString)
         {
             var bytes = new byte[hexString.Length / 2];
             for (var i = 0; i < bytes.Length; i++)
