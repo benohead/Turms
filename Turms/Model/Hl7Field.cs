@@ -18,7 +18,7 @@ namespace Turms.Model
         public override string ToString()
         {
             EnsureFullyParsed();
-            return Value;
+            return Encoding.Unescape(Value);
         }
 
         public static Hl7Field Parse(string field, Hl7Encoding encoding)
