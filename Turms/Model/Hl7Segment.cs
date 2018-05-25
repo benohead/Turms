@@ -47,7 +47,7 @@ namespace Turms.Model
             get
             {
                 EnsureFullyParsed();
-                return Fields.Count > i ? Fields[i] : new Hl7Field("");
+                return Fields.Count > i ? Fields[i] : Hl7Field.Parse("", Encoding);
             }
         }
 

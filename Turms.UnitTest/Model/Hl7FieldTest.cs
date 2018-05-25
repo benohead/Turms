@@ -25,5 +25,29 @@ namespace Turms.UnitTest.Model
             //Assert
             Assert.Equal("MoreText", repetition);
         }
+
+        [Fact]
+        public void ShouldReturnEmptyRepetitionByDefault()
+        {
+            //Arrange
+            var fieldString = @"This\.br\is\.br\A Test~MoreText~SomeMoreText";
+
+            //Act
+            var field = Hl7Field.Parse(fieldString);
+            var repetition = field[4].ToString();
+
+            //Assert
+            Assert.Equal("", repetition);
+        }
+
+        [Fact]
+        public void ShouldParseCreatedField()
+        {
+            //Arrange
+            var field = new Hl7Field() + @"This\.br\is\.br\A Test"+"MoreText"+"SomeMoreText";
+
+            //Assert
+            Assert.Equal(@"This\.br\is\.br\A Test~MoreText~SomeMoreText", field.ToString());
+        }
     }
 }

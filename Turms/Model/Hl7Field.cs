@@ -9,16 +9,20 @@ namespace Turms.Model
     {
         private List<Hl7FieldRepetition> Repetitions { get; set; }
 
-        public Hl7Field(string value) : this(value, new Hl7Encoding())
+        private Hl7Field(string value, Hl7Encoding encoding): this(encoding)
+        {
+            Value = value.TrimEnd(encoding.ComponentSeparator);
+        }
+
+        public Hl7Field() : this(new Hl7Encoding())
         {
         }
 
-        private Hl7Field(string value, Hl7Encoding encoding)
+        private Hl7Field(Hl7Encoding encoding)
         {
-            if (encoding == null) throw new ArgumentNullException(nameof(encoding));
+            Encoding = encoding ?? throw new ArgumentNullException(nameof(encoding));
+            Value = string.Empty;
             Repetitions = new List<Hl7FieldRepetition>();
-            Value = value.TrimEnd(encoding.ComponentSeparator);
-            Encoding = encoding;
         }
 
         public override string ToString()
@@ -53,8 +57,20 @@ namespace Turms.Model
             get
             {
                 EnsureFullyParsed();
-                return Repetitions.Count >= i ? Repetitions[i-1] : new Hl7FieldRepetition("");
+                return Repetitions.Count >= i ? Repetitions[i-1] : Hl7FieldRepetition.Parse("", Encoding);
             }
+        }
+
+        public static Hl7Field operator +(Hl7Field field, Hl7FieldRepetition repetition)
+        {
+            field.Repetitions.Add(repetition);
+            return field;
+        }
+
+        public static Hl7Field operator +(Hl7Field field, string repetition)
+        {
+            field += Hl7FieldRepetition.Parse(repetition, field.Encoding);
+            return field;
         }
     }
 }

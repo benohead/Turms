@@ -2,10 +2,6 @@
 {
     public class Hl7FieldRepetition: Hl7Element
     {
-        public Hl7FieldRepetition(string value): this(value, new Hl7Encoding())
-        {
-        }
-
         private Hl7FieldRepetition(string value, Hl7Encoding encoding)
         {
             Value = value;
