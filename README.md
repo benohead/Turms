@@ -1,5 +1,5 @@
 # Turms
-Lightweight HL7 C# parser
+A lightweight HL7 library for .Net Standard
 
 [![Build Status](https://travis-ci.org/benohead/Turms.svg?branch=master)](https://travis-ci.org/benohead/Turms)
 

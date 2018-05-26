@@ -4,6 +4,13 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Turms</AssemblyName>
     <DebugType>Full</DebugType>
+    <Version>0.0.1</Version>
+    <Authors>Henri Benoit</Authors>
+    <Description>A lightweight HL7 library for .Net Standard</Description>
+    <Company>Henri Benoit</Company>
+    <PackageProjectUrl>https://github.com/benohead/Turms</PackageProjectUrl>
+    <PackageTags>hl7 hl7-parser hl7-writer dotnetstandard dotnetcore</PackageTags>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
 </Project>
