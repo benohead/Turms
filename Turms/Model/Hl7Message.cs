@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace Turms.Model
 {
@@ -131,5 +132,36 @@ namespace Turms.Model
         }
 
         #endregion
+        public static string Fix(string message)
+        {
+            return Fix(message, new Hl7Encoding());
+        }
+
+        private static string Fix(string message, Hl7Encoding encoding)
+        {
+            message = FixNewlinesInSegment(message, encoding);
+            return message;
+        }
+
+        private static string FixNewlinesInSegment(string message, Hl7Encoding encoding)
+        {
+            var segments = message.Split(encoding.SegmentSeparator, StringSplitOptions.None).ToList();
+            StringBuilder builder = new StringBuilder();
+            builder.Append(segments[0]);
+            for (int i = 1; i < segments.Count; i++)
+            {
+                var segment = segments[i];
+                if (segment.Length > 3 && segment[3] != encoding.FieldSeparator)
+                {
+                    builder.Append(encoding.Escape(encoding.SegmentSeparator[0]));
+                }
+                else
+                {
+                    builder.Append(encoding.SegmentSeparator[0]);
+                }
+                builder.Append(segment);
+            }
+            return builder.ToString();
+        }
     }
 }

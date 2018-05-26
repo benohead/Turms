@@ -17,17 +17,17 @@ namespace Turms.AcceptanceTest
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.3.2.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class MessageProcessingFeature : Xunit.IClassFixture<MessageProcessingFeature.FixtureData>, System.IDisposable
+    public partial class MessageFixingFeature : Xunit.IClassFixture<MessageFixingFeature.FixtureData>, System.IDisposable
     {
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
         
         private Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
         
-#line 1 "MessageProcessing.feature"
+#line 1 "MessageFixing.feature"
 #line hidden
         
-        public MessageProcessingFeature(MessageProcessingFeature.FixtureData fixtureData, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
+        public MessageFixingFeature(MessageFixingFeature.FixtureData fixtureData, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
         {
             this._testOutputHelper = testOutputHelper;
             this.TestInitialize();
@@ -36,8 +36,8 @@ namespace Turms.AcceptanceTest
         public static void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "MessageProcessing", "\tIn order to process different messages\r\n\tAs an interface engineer\r\n\tI want to be" +
-                    " able to register message processors", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "MessageFixing", "\tIn order to process invalid messages\r\n\tAs an interface engineer\r\n\tI want to fix " +
+                    "errors in the messages", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -72,30 +72,40 @@ namespace Turms.AcceptanceTest
             this.ScenarioTearDown();
         }
         
-        [Xunit.FactAttribute(DisplayName="Trigger appropriate processor")]
-        [Xunit.TraitAttribute("FeatureTitle", "MessageProcessing")]
-        [Xunit.TraitAttribute("Description", "Trigger appropriate processor")]
+        [Xunit.FactAttribute(DisplayName="Parsing HL7 messages with invalid line breaks succeeds after fixing the message")]
+        [Xunit.TraitAttribute("FeatureTitle", "MessageFixing")]
+        [Xunit.TraitAttribute("Description", "Parsing HL7 messages with invalid line breaks succeeds after fixing the message")]
         [Xunit.TraitAttribute("Category", "mytag")]
-        public virtual void TriggerAppropriateProcessor()
+        public virtual void ParsingHL7MessagesWithInvalidLineBreaksSucceedsAfterFixingTheMessage()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Trigger appropriate processor", new string[] {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Parsing HL7 messages with invalid line breaks succeeds after fixing the message", new string[] {
                         "mytag"});
 #line 7
 this.ScenarioSetup(scenarioInfo);
 #line 8
- testRunner.Given("I have an ADT^A01 message processor", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("I have a message with a line break in the middle of a segment", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 9
- testRunner.And("I have an ADT^A02 message processor", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.When("I fix the message", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 10
- testRunner.And("I have an ADT^A08 message processor", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 11
- testRunner.When("I process an ADT^A01 message", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 12
- testRunner.Then("the ADT^A01 message processor is triggered", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("the fixed message can be parsed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.FactAttribute(DisplayName="Parsing HL7 messages with invalid line breaks without fixing fails")]
+        [Xunit.TraitAttribute("FeatureTitle", "MessageFixing")]
+        [Xunit.TraitAttribute("Description", "Parsing HL7 messages with invalid line breaks without fixing fails")]
+        [Xunit.TraitAttribute("Category", "mytag")]
+        public virtual void ParsingHL7MessagesWithInvalidLineBreaksWithoutFixingFails()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Parsing HL7 messages with invalid line breaks without fixing fails", new string[] {
+                        "mytag"});
 #line 13
- testRunner.And("the ADT^A02 message processor is not triggered", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+this.ScenarioSetup(scenarioInfo);
 #line 14
- testRunner.And("the ADT^A08 message processor is not triggered", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("I have a message with a line break in the middle of a segment", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 15
+ testRunner.Then("the fixed message cannot be parsed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -107,12 +117,12 @@ this.ScenarioSetup(scenarioInfo);
             
             public FixtureData()
             {
-                MessageProcessingFeature.FeatureSetup();
+                MessageFixingFeature.FeatureSetup();
             }
             
             void System.IDisposable.Dispose()
             {
-                MessageProcessingFeature.FeatureTearDown();
+                MessageFixingFeature.FeatureTearDown();
             }
         }
     }

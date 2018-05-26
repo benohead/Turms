@@ -10,7 +10,7 @@ namespace Turms.Model
         internal bool IsParsed { get; set; }
         protected string Value { get; set; }
 
-        protected void EnsureFullyParsed()
+        public void EnsureFullyParsed()
         {
             if (!IsParsed)
                 FullyParse();

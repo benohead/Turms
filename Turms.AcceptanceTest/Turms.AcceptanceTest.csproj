@@ -19,6 +19,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="MessageFixing.feature.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>MessageFixing.feature</DependentUpon>
+    </Compile>
     <Compile Update="MessageParsing.feature.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -32,6 +37,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="MessageFixing.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>MessageFixing.feature.cs</LastGenOutput>
+    </None>
     <None Update="MessageParsing.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>MessageParsing.feature.cs</LastGenOutput>

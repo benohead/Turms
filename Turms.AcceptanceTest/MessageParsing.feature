@@ -1,5 +1,5 @@
 ﻿Feature: MessageParsing
-	In order to be able to process a message
+	In order to process a message
 	As an interface engineer
 	I want to parse a message string to an object structure
 

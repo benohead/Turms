@@ -104,19 +104,6 @@ namespace Turms.Model
             return result.ToString();
         }
 
-        //public static string ToHexString(string str)
-        //{
-        //    var sb = new StringBuilder();
-
-        //    var bytes = Encoding.Unicode.GetBytes(str);
-        //    foreach (var t in bytes)
-        //    {
-        //        sb.Append(t.ToString("X2"));
-        //    }
-
-        //    return sb.ToString();
-        //}
-
         private static string FromHexString(string hexString)
         {
             var bytes = new byte[hexString.Length / 2];
@@ -126,6 +113,24 @@ namespace Turms.Model
             }
 
             return Encoding.ASCII.GetString(bytes).Replace("" + (char)0, "");
+        }
+
+        public string Escape(string s)
+        {
+            return $"\\X{ToHexString(s)}\\";
+        }
+
+        private static string ToHexString(string str)
+        {
+            var sb = new StringBuilder();
+
+            var bytes = Encoding.ASCII.GetBytes(str);
+            foreach (var t in bytes)
+            {
+                sb.Append(t.ToString("X2"));
+            }
+
+            return sb.ToString();
         }
     }
 }

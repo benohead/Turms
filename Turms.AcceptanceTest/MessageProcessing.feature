@@ -1,5 +1,5 @@
 ﻿Feature: MessageProcessing
-	In order to be able to process different messages
+	In order to process different messages
 	As an interface engineer
 	I want to be able to register message processors
 

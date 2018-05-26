@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace Turms.BDD
+namespace Turms.AcceptanceTest
 {
     using TechTalk.SpecFlow;
     
@@ -36,8 +36,8 @@ namespace Turms.BDD
         public static void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "MessageParsing", "\tIn order to be able to process a message\r\n\tAs an interface engineer\r\n\tI want to " +
-                    "parse a message string to an object structure", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "MessageParsing", "\tIn order to process a message\r\n\tAs an interface engineer\r\n\tI want to parse a mes" +
+                    "sage string to an object structure", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
