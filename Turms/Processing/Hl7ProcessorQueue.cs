@@ -3,7 +3,7 @@ using Turms.Model;
 
 namespace Turms.Processing
 {
-    public class Hl7ProcessorFarm
+    public class Hl7ProcessorQueue
     {
         private readonly List<IHl7Processor> processors = new List<IHl7Processor>();
 

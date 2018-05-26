@@ -18,5 +18,19 @@ namespace Turms.UnitTest.Model
             const string expectedResult = "&\\H\\\\N\\|~^\n";
             Assert.Equal(expectedResult, result);
         }
+
+        [Fact]
+        public void ShouldEscapeData()
+        {
+            // Arrange
+            const string content = "\r\n";
+
+            // Act
+            var result = new Hl7Encoding().Escape(content);
+
+            // Assert
+            const string expectedResult = @"\X0D0A\";
+            Assert.Equal(expectedResult, result);
+        }
     }
 }

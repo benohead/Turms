@@ -15,23 +15,23 @@ namespace Turms.AcceptanceTest.DSL
 
         public void RegisterProcessor(string eventType)
         {
-            if (!scenarioContext.ContainsKey("Hl7ProcessorFarm"))
+            if (!scenarioContext.ContainsKey("Hl7ProcessorQueue"))
             {
-                scenarioContext.Add("Hl7ProcessorFarm", new Hl7ProcessorFarm());
+                scenarioContext.Add("Hl7ProcessorQueue", new Hl7ProcessorQueue());
             }
-            var hl7ProcessorFarm = scenarioContext.Get<Hl7ProcessorFarm>("Hl7ProcessorFarm");
+            var hl7ProcessorQueue = scenarioContext.Get<Hl7ProcessorQueue>("Hl7ProcessorQueue");
             var processor = new Hl7ProcessorMock()
             {
                 EventType = eventType
             };
-            hl7ProcessorFarm.AddProcessor(processor);
+            hl7ProcessorQueue.AddProcessor(processor);
             scenarioContext.Add(eventType+"Processor", processor);
         }
 
         public void ProcessMessage(string message)
         {
-            var hl7ProcessorFarm = scenarioContext.Get<Hl7ProcessorFarm>("Hl7ProcessorFarm");
-            hl7ProcessorFarm.Process(message);
+            var hl7ProcessorQueue = scenarioContext.Get<Hl7ProcessorQueue>("Hl7ProcessorQueue");
+            hl7ProcessorQueue.Process(message);
         }
 
         public void ConfirmProcessorTriggered(string eventType)

@@ -280,7 +280,7 @@ OBX|1|TX|PROBLEM FOCUSED^PROBLEM FOCUSED^test|1|\T\#39;Thirty days have Septembe
         }
 
         [Fact]
-        public void Should_be_able_to_handle_leading_whitespace_on_MSH()
+        public void ShouldBeAbleToHandleLeadingWhitespaceOnMSH()
         {
             //Arrange
             const string message =
@@ -294,6 +294,37 @@ OBR|1|PRO2350||11636^Urinalysis, with Culture if Indicated^L|||20130405135133|||
 
             //Assert
             Assert.Equal("MSH", hl7Message["MSH.0"].ToString());
+        }
+
+        [Fact]
+        public void ShouldFixInvalidNewLinesInMessage()
+        {
+            //Arrange
+            string message = @"MSH|^~\&|DDTEK LAB|ELAB-1|DDTEK OE|BLDG14|200502150930||ORU^R01^ORU_R01|CTRL-9876|P|2.4
+PID|||010-11-1111||Estherhaus^Eva^E^^^^L|Smith|19720520|F|||256 Sherwood Forest Dr.^^Baton Rouge^LA^70809||(225)334-5232|(225)752-1213||||AC010111111||76-B4335^LA^20070520
+OBR|1|948642^DDTEK OE|917363^DDTEK LAB|1554-5^GLUCOSE|||200502150730|||||||||020-22-2222^Levin-Epstein^Anna^^^^MD^^Micro-Managed
+Health Associates|||||||||F|||||||030-33-3333&Honeywell&Carson&&&&MD
+OBX|1|SN|1554-5^GLUCOSE^^^POST 12H CFST:MCNC:PT:SER/PLAS:QN||^175|mg/dl|70_105|H|||F";
+
+            //Act
+            var fixedMessage = Hl7Message.Fix(message);
+
+            //Assert
+            Assert.Throws<ArgumentException>(() => Hl7Message.Parse(message).EnsureFullyParsed());
+            Hl7Message.Parse(fixedMessage).EnsureFullyParsed();
+        }
+
+        [Fact]
+        public void ShouldNotFixEmptySegments()
+        {
+            //Arrange
+            string message = "MSH|^~\\&|DDTEK LAB|ELAB-1|DDTEK OE|BLDG14|200502150930||ORU^R01^ORU_R01|CTRL-9876|P|2.4\r\nPID|||010-11-1111||Estherhaus^Eva^E^^^^L|Smith|19720520|F|||256 Sherwood Forest Dr.^^Baton Rouge^LA^70809||(225)334-5232|(225)752-1213||||AC010111111||76-B4335^LA^20070520\r\nOBR|1|948642^DDTEK OE|917363^DDTEK LAB|1554-5^GLUCOSE|||200502150730|||||||||020-22-2222^Levin-Epstein^Anna^^^^MD^^Micro-Managed\r\nOBX";
+
+            //Act
+            var fixedMessage = Hl7Message.Fix(message);
+
+            //Assert
+            Assert.Equal(message, fixedMessage);
         }
     }
 }

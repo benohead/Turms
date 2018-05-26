@@ -1,7 +1,6 @@
 ﻿using System;
 using TechTalk.SpecFlow;
 using Turms.AcceptanceTest.DSL;
-using Turms.Model;
 using Xunit;
 
 namespace Turms.AcceptanceTest
@@ -9,7 +8,7 @@ namespace Turms.AcceptanceTest
     [Binding]
     public class MessageFixingSteps
     {
-        private MessageDsl messageDsl;
+        private readonly MessageDsl messageDsl;
 
         public MessageFixingSteps(ScenarioContext scenarioContext)
         {
