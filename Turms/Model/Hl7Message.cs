@@ -51,7 +51,21 @@ namespace Turms.Model
         private static void CheckMessage(string message)
         {
             if (!message.StartsWith("MSH"))
+            {
                 throw new ArgumentException("HL7 messages should start with an MSH segment", nameof(message));
+            }
+            if (message[3] != message[8])
+            {
+                throw new ArgumentException("There should be exactly 4 separators defined in the MSH segment", nameof(message));
+            }
+            if (message.Substring(3, 5).Any(Char.IsLetterOrDigit))
+            {
+                throw new ArgumentException("Separators should not be alphanumeric characters", nameof(message));
+            }
+            if (message.Substring(3, 5).Distinct().Count() != 5)
+            {
+                throw new ArgumentException("All separators should not be distinct characters", nameof(message));
+            }
         }
 
         #endregion
@@ -68,7 +82,7 @@ namespace Turms.Model
             get
             {
                 EnsureFullyParsed();
-                var queryParts = query.Split(new[] {'.'}).ToList();
+                var queryParts = query.Split('.').ToList();
                 var segmentName = queryParts[0];
                 var segment = segmentsInternal.FirstOrDefault(s => s.Name == segmentName);
                 if (queryParts.Count == 1)

@@ -17,10 +17,10 @@ namespace Turms.Model
 
         public string[] SegmentSeparator { get; set; }
         public char FieldSeparator { get; set; }
-        public char ComponentSeparator { get; set; }
-        public char EscapeCharacter { get; set; }
-        public char SubcomponentSeparator { get; set; }
-        public char RepetitionSeparator { get; set; }
+        public char ComponentSeparator { get; }
+        private char EscapeCharacter { get; }
+        private char SubcomponentSeparator { get; }
+        public char RepetitionSeparator { get; }
 
         public string Unescape(string value)
         {

@@ -6,7 +6,7 @@ namespace Turms.Model
 {
     public abstract class Hl7Element
     {
-        protected internal Hl7Encoding Encoding { get; set; }
+        protected internal Hl7Encoding Encoding { get; protected set; }
         internal bool IsParsed { get; set; }
         protected string Value { get; set; }
 

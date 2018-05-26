@@ -6,7 +6,7 @@ namespace Turms.Model
 {
     public class Hl7Field: Hl7Element
     {
-        private List<Hl7FieldRepetition> Repetitions { get; set; }
+        private List<Hl7FieldRepetition> Repetitions { get; }
 
         private Hl7Field(string value, Hl7Encoding encoding): this(encoding)
         {

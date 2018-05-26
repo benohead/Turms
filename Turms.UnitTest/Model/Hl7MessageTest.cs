@@ -229,5 +229,51 @@ OBX|1|TX|PROBLEM FOCUSED^PROBLEM FOCUSED^test|1|\T\#39;Thirty days have Septembe
                 "&#39;Thirty days have September,\rApril\nJune,\nand November.\nWhen short February is done,\\X0A\\all the rest have&nbsp;31.&#39";
             Assert.Equal(expectedResult, obx5);
         }
+
+        [Fact]
+        public void ShouldThrowExceptionWhenThereAreTooManyParsingDelimiters()
+        {
+            //Arrange
+            const string message = @"MSH|^~\ &|LIFTLAB||UBERMED||201701131234||ORU^R01|K113|P|";
+
+            //Assert
+            Assert.Throws<ArgumentException>(() => { Hl7Message.Parse(message); });
+        }
+
+        [Fact]
+        public void ShouldThrowExceptionWhenParsingDelimitersAreMissing()
+        {
+            //Arrange
+            const string message = @"MSH||LIFTLAB||UBERMED||201701131234||ORU^R01|K113|P|";
+
+            //Assert
+            Assert.Throws<ArgumentException>(() => { Hl7Message.Parse(message); });
+        }
+
+        [Fact]
+        public void ShouldThrowExceptionWhenParsingDelimitersAreAlphanumeric()
+        {
+            //Arrange
+            const string message = @"MSH|AB12|LIFTLAB||UBERMED||201701131234||ORU^R01|K113|P|";
+
+            //Assert
+            Assert.Throws<ArgumentException>(() => { Hl7Message.Parse(message); });
+        }
+
+        [Fact]
+        public void ShouldThrowExceptionWhenParsingDelimitersAreIdentical()
+        {
+            //Arrange
+            const string message1 = @"MSH|^~|&|LIFTLAB||UBERMED||201701131234||ORU^R01|K113|P|";
+            const string message2 = @"MSH|^~^&|LIFTLAB||UBERMED||201701131234||ORU^R01|K113|P|";
+            const string message3 = @"MSH|^~~&|LIFTLAB||UBERMED||201701131234||ORU^R01|K113|P|";
+            const string message4 = @"MSH|^&\&|LIFTLAB||UBERMED||201701131234||ORU^R01|K113|P|";
+
+            //Assert
+            Assert.Throws<ArgumentException>(() => { Hl7Message.Parse(message1); });
+            Assert.Throws<ArgumentException>(() => { Hl7Message.Parse(message2); });
+            Assert.Throws<ArgumentException>(() => { Hl7Message.Parse(message3); });
+            Assert.Throws<ArgumentException>(() => { Hl7Message.Parse(message4); });
+        }
     }
 }
