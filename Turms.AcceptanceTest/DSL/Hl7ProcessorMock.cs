@@ -2,7 +2,7 @@
 using Turms.Model;
 using Turms.Processing;
 
-namespace Turms.BDD.DSL
+namespace Turms.AcceptanceTest.DSL
 {
     internal class Hl7ProcessorMock: IHl7Processor
     {

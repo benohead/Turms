@@ -1,8 +1,8 @@
 ﻿using System;
 using TechTalk.SpecFlow;
-using Turms.BDD.DSL;
+using Turms.AcceptanceTest.DSL;
 
-namespace Turms.BDD
+namespace Turms.AcceptanceTest
 {
     [Binding]
     public class MessageParsingSteps

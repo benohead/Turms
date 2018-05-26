@@ -2,7 +2,7 @@
 using Turms.Model;
 using Xunit;
 
-namespace Turms.BDD.DSL
+namespace Turms.AcceptanceTest.DSL
 {
     internal class MessageDsl
     {

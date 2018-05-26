@@ -2,7 +2,7 @@
 using Turms.Processing;
 using Xunit;
 
-namespace Turms.BDD.DSL
+namespace Turms.AcceptanceTest.DSL
 {
     class ProcessorDsl
     {
