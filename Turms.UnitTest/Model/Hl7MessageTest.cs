@@ -7,10 +7,12 @@ namespace Turms.UnitTest.Model
     public class Hl7MessageTest
     {
         private const string AdtA01Message =
-            "MSH|^~\\&|SENDING_APPLICATION|SENDING_FACILITY|RECEIVING_APPLICATION|RECEIVING_FACILITY|20110613083617||ADT^A01|934576120110613083617|P|2.3||||\r\nEVN|A01|20110613083617|||\r\nPID|1||135769||MOUSE^MICKEY^||19281118|M|||123 Main St.^^Lake Buena Vista^FL^32830||(407)939-1289^^^theMainMouse@disney.com|||||1719|99999999||||||||||||||||||||\r\nPV1|1|O|||||^^^^^^^^|^^^^^^^^";
+                "MSH|^~\\&|SENDING_APPLICATION|SENDING_FACILITY|RECEIVING_APPLICATION|RECEIVING_FACILITY|20110613083617||ADT^A01|934576120110613083617|P|2.3||||\r\nEVN|A01|20110613083617|||\r\nPID|1||135769||MOUSE^MICKEY^||19281118|M|||123 Main St.^^Lake Buena Vista^FL^32830||(407)939-1289^^^theMainMouse@disney.com|||||1719|99999999||||||||||||||||||||\r\nPV1|1|O|||||^^^^^^^^|^^^^^^^^"
+            ;
 
         private const string AdtA01MessageNoTrailingSeparators =
-            "MSH|^~\\&|SENDING_APPLICATION|SENDING_FACILITY|RECEIVING_APPLICATION|RECEIVING_FACILITY|20110613083617||ADT^A01|934576120110613083617|P|2.3\r\nEVN|A01|20110613083617\r\nPID|1||135769||MOUSE^MICKEY||19281118|M|||123 Main St.^^Lake Buena Vista^FL^32830||(407)939-1289^^^theMainMouse@disney.com|||||1719|99999999\r\nPV1|1|O";
+                "MSH|^~\\&|SENDING_APPLICATION|SENDING_FACILITY|RECEIVING_APPLICATION|RECEIVING_FACILITY|20110613083617||ADT^A01|934576120110613083617|P|2.3\r\nEVN|A01|20110613083617\r\nPID|1||135769||MOUSE^MICKEY||19281118|M|||123 Main St.^^Lake Buena Vista^FL^32830||(407)939-1289^^^theMainMouse@disney.com|||||1719|99999999\r\nPV1|1|O"
+            ;
 
         private const string MessageMshOnlyOtherFieldDelimiter =
                 "MSH$^~\\&$SENDING_APPLICATION$SENDING_FACILITY$RECEIVING_APPLICATION$RECEIVING_FACILITY$20110613083617$$ADT^A01$934576120110613083617$P$2.3$$$$"
@@ -215,7 +217,8 @@ namespace Turms.UnitTest.Model
         public void ShouldUnescapeData()
         {
             // Arrange
-            const string content = @"MSH|^~\&|TestSys|432^testsys practice|TEST||201402171537||MDM^T02|121906|P|2.3.1||||||||
+            const string content =
+                @"MSH|^~\&|TestSys|432^testsys practice|TEST||201402171537||MDM^T02|121906|P|2.3.1||||||||
 OBX|1|TX|PROBLEM FOCUSED^PROBLEM FOCUSED^test|1|\T\#39;Thirty days have September,\X000d\April\X0A\June,\X0A\and November.\X0A\When short February is done,\E\X0A\E\all the rest have\T\nbsp;31.\T\#39";
 
             var msg = Hl7Message.Parse(content);
@@ -274,6 +277,23 @@ OBX|1|TX|PROBLEM FOCUSED^PROBLEM FOCUSED^test|1|\T\#39;Thirty days have Septembe
             Assert.Throws<ArgumentException>(() => { Hl7Message.Parse(message2); });
             Assert.Throws<ArgumentException>(() => { Hl7Message.Parse(message3); });
             Assert.Throws<ArgumentException>(() => { Hl7Message.Parse(message4); });
+        }
+
+        [Fact]
+        public void Should_be_able_to_handle_leading_whitespace_on_MSH()
+        {
+            //Arrange
+            const string message =
+                @"    MSH|^~\&|MACHETELAB|^DOSC|MACHETE|18779|20130405125146269||ORM^O01|1999077678|P|2.3|||AL|AL
+PID|1|000000000026|60043^^^MACHETE^MRN||MACHETE^JOE||19890909|F|||123 SEASAME STREET^^Oakland^CA^94600||5101234567|5101234567||||||||||||||||N
+ORC|NW|PRO2350||XO934N|||^^^^^R||20130405125144|91238^Machete^Joe||92383^Machete^Janice
+OBR|1|PRO2350||11636^Urinalysis, with Culture if Indicated^L|||20130405135133||||N|||||92383^Machete^Janice|||||||||||^^^^^R";
+
+            //Act
+            var hl7Message = Hl7Message.Parse(message);
+
+            //Assert
+            Assert.Equal("MSH", hl7Message["MSH.0"].ToString());
         }
     }
 }

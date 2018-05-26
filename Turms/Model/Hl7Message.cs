@@ -37,19 +37,18 @@ namespace Turms.Model
 
         private Hl7Message(string message, Hl7Encoding encoding) : this(encoding)
         {
-            CheckMessage(message);
-            Value = message;
+            Value = CheckMessage(message);
         }
 
         private Hl7Message(string message) : this(new Hl7Encoding())
         {
-            CheckMessage(message);
-            Value = message;
-            Encoding.FieldSeparator = message[3];
+            Value = CheckMessage(message);
+            Encoding.FieldSeparator = Value[3];
         }
 
-        private static void CheckMessage(string message)
+        private static string CheckMessage(string message)
         {
+            message = message.TrimStart(' ');
             if (!message.StartsWith("MSH"))
             {
                 throw new ArgumentException("HL7 messages should start with an MSH segment", nameof(message));
@@ -66,6 +65,7 @@ namespace Turms.Model
             {
                 throw new ArgumentException("All separators should not be distinct characters", nameof(message));
             }
+            return message;
         }
 
         #endregion
