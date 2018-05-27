@@ -18,8 +18,8 @@ namespace Turms.Model
         public string[] SegmentSeparator { get; set; }
         public char FieldSeparator { get; set; }
         public char ComponentSeparator { get; }
-        private char EscapeCharacter { get; }
-        private char SubcomponentSeparator { get; }
+        public char EscapeCharacter { get; }
+        public char SubcomponentSeparator { get; }
         public char RepetitionSeparator { get; }
 
         public string Unescape(string value)
@@ -87,7 +87,7 @@ namespace Turms.Model
                         break;
                     case 'X':
                         nextEscape = value.IndexOf(EscapeCharacter, nextEscape + 1);
-                        var s = value.Substring(previousEscape +1, nextEscape - previousEscape - 1);
+                        var s = value.Substring(previousEscape + 1, nextEscape - previousEscape - 1);
                         result.Append(FromHexString(s));
                         previousEscape = nextEscape + 1;
                         break;
@@ -112,7 +112,7 @@ namespace Turms.Model
                 bytes[i] = Convert.ToByte(hexString.Substring(i * 2, 2), 16);
             }
 
-            return Encoding.ASCII.GetString(bytes).Replace("" + (char)0, "");
+            return Encoding.ASCII.GetString(bytes).Replace("" + (char) 0, "");
         }
 
         public string Escape(string s)

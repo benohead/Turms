@@ -318,13 +318,51 @@ OBX|1|SN|1554-5^GLUCOSE^^^POST 12H CFST:MCNC:PT:SER/PLAS:QN||^175|mg/dl|70_105|H
         public void ShouldNotFixEmptySegments()
         {
             //Arrange
-            string message = "MSH|^~\\&|DDTEK LAB|ELAB-1|DDTEK OE|BLDG14|200502150930||ORU^R01^ORU_R01|CTRL-9876|P|2.4\r\nPID|||010-11-1111||Estherhaus^Eva^E^^^^L|Smith|19720520|F|||256 Sherwood Forest Dr.^^Baton Rouge^LA^70809||(225)334-5232|(225)752-1213||||AC010111111||76-B4335^LA^20070520\r\nOBR|1|948642^DDTEK OE|917363^DDTEK LAB|1554-5^GLUCOSE|||200502150730|||||||||020-22-2222^Levin-Epstein^Anna^^^^MD^^Micro-Managed\r\nOBX";
+            string message =
+                "MSH|^~\\&|DDTEK LAB|ELAB-1|DDTEK OE|BLDG14|200502150930||ORU^R01^ORU_R01|CTRL-9876|P|2.4\r\nPID|||010-11-1111||Estherhaus^Eva^E^^^^L|Smith|19720520|F|||256 Sherwood Forest Dr.^^Baton Rouge^LA^70809||(225)334-5232|(225)752-1213||||AC010111111||76-B4335^LA^20070520\r\nOBR|1|948642^DDTEK OE|917363^DDTEK LAB|1554-5^GLUCOSE|||200502150730|||||||||020-22-2222^Levin-Epstein^Anna^^^^MD^^Micro-Managed\r\nOBX";
 
             //Act
             var fixedMessage = Hl7Message.Fix(message);
 
             //Assert
             Assert.Equal(message, fixedMessage);
+        }
+
+        [Fact]
+        public void ShouldReturnAddedSegment()
+        {
+            //Arrange
+            var messageString =
+                "MSH|^~\\&|SENDING_APPLICATION|SENDING_FACILITY|RECEIVING_APPLICATION|RECEIVING_FACILITY|20110613083617||ADT^A01|934576120110613083617|P|2.3|||";
+
+            //Act
+            var message = Hl7Message.Parse(messageString);
+            message[2] =
+                new Hl7Segment(
+                    "PID|1||135769||MOUSE^MICKEY||19281118|M|||123 Main St.^^Lake Buena Vista^FL^32830||(407)939-1289^^^theMainMouse@disney.com|||||1719|99999999");
+            message[3] = new Hl7Segment("PV1|1|O");
+            var segment2 = message[2].ToString();
+            var segment3 = message[3].ToString();
+
+            //Assert
+            Assert.Equal(
+                "PID|1||135769||MOUSE^MICKEY||19281118|M|||123 Main St.^^Lake Buena Vista^FL^32830||(407)939-1289^^^theMainMouse@disney.com|||||1719|99999999",
+                segment2);
+            Assert.Equal("PV1|1|O", segment3);
+        }
+
+        [Fact]
+        public void ShouldReturnEmptySegmentByDefault()
+        {
+            //Arrange
+            var messageString = AdtA01Message;
+
+            //Act
+            var message = Hl7Message.Parse(messageString);
+            var segment = message[5];
+
+            //Assert
+            Assert.Null(segment);
         }
     }
 }

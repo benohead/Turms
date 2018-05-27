@@ -4,7 +4,7 @@ using Turms.Processing;
 
 namespace Turms.AcceptanceTest.DSL
 {
-    internal class Hl7ProcessorMock: IHl7Processor
+    internal class Hl7ProcessorMock : IHl7Processor
     {
         private readonly List<string> eventsProcessed = new List<string>();
         internal string EventType { private get; set; }
@@ -22,6 +22,6 @@ namespace Turms.AcceptanceTest.DSL
         public bool HasProcessedEventType(string eventType)
         {
             return eventsProcessed.Contains(eventType);
-        } 
+        }
     }
 }

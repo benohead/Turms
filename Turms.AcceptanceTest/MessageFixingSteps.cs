@@ -35,7 +35,7 @@ OBX|1|SN|1554-5^GLUCOSE^^^POST 12H CFST:MCNC:PT:SER/PLAS:QN||^175|mg/dl|70_105|H
         {
             messageDsl.FixMessage();
         }
-        
+
         [Then(@"the fixed message can be parsed")]
         public void ThenTheFixedMessageCanBeParsed()
         {

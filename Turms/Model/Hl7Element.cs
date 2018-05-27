@@ -17,5 +17,6 @@ namespace Turms.Model
         }
 
         protected abstract void FullyParse();
+        public abstract Hl7Element this[int i] { get; set; }
     }
 }

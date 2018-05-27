@@ -32,7 +32,8 @@ namespace Turms.Model
         private Hl7Message(Hl7Encoding encoding)
         {
             Encoding = encoding;
-            Value = string.Empty;
+            Value =
+                $"MSH{encoding.FieldSeparator}{encoding.ComponentSeparator}{encoding.RepetitionSeparator}{encoding.EscapeCharacter}{encoding.SubcomponentSeparator}{encoding.FieldSeparator}";
             segmentsInternal = new List<Hl7Segment>();
         }
 
@@ -56,7 +57,8 @@ namespace Turms.Model
             }
             if (message[3] != message[8])
             {
-                throw new ArgumentException("There should be exactly 4 separators defined in the MSH segment", nameof(message));
+                throw new ArgumentException("There should be exactly 4 separators defined in the MSH segment",
+                    nameof(message));
             }
             if (message.Substring(3, 5).Any(Char.IsLetterOrDigit))
             {
@@ -73,7 +75,8 @@ namespace Turms.Model
 
         public override string ToString()
         {
-            return string.Join(Encoding.SegmentSeparator[0], Segments.Select(f => f.ToString()));
+            EnsureFullyParsed();
+            return string.Join(Encoding.SegmentSeparator[0], Segments.Select(segment => segment.ToString()));
         }
 
         #region operators
@@ -93,8 +96,31 @@ namespace Turms.Model
             }
         }
 
+        public override Hl7Element this[int i]
+        {
+            get
+            {
+                EnsureFullyParsed();
+                return Segments.Count >= i ? Segments[i - 1] : null;
+            }
+            set
+            {
+                EnsureFullyParsed();
+                for (int j = Segments.Count; j <= i - 1; j++)
+                {
+                    Segments.Add(new Hl7Segment());
+                }
+                Segments[i - 1] = (Hl7Segment) value;
+            }
+        }
+
         public static Hl7Message operator +(Hl7Message message, Hl7Segment segment)
         {
+            message.EnsureFullyParsed();
+            if (message.Segments.Count == 1 && message.Segments[0].Name == "MSH" && segment.Name == "MSH")
+            {
+                message.Segments.Clear();
+            }
             message.Segments.Add(segment);
             return message;
         }
@@ -128,10 +154,12 @@ namespace Turms.Model
                 foreach (var segment in segments)
                     segmentsInternal.Add(Hl7Segment.Parse(segment, Encoding));
             }
+            Value = null;
             IsParsed = true;
         }
 
         #endregion
+
         public static string Fix(string message)
         {
             return Fix(message, new Hl7Encoding());

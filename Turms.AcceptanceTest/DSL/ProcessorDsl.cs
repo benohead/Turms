@@ -25,7 +25,7 @@ namespace Turms.AcceptanceTest.DSL
                 EventType = eventType
             };
             hl7ProcessorQueue.AddProcessor(processor);
-            scenarioContext.Add(eventType+"Processor", processor);
+            scenarioContext.Add(eventType + "Processor", processor);
         }
 
         public void ProcessMessage(string message)

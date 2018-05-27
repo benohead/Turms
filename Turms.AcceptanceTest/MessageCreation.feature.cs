@@ -19,17 +19,17 @@ namespace Turms.AcceptanceTest
 
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.3.2.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class MessageParsingFeature : Xunit.IClassFixture<MessageParsingFeature.FixtureData>,
+    public partial class MessageCreationFeature : Xunit.IClassFixture<MessageCreationFeature.FixtureData>,
         System.IDisposable
     {
         private static TechTalk.SpecFlow.ITestRunner testRunner;
 
         private Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
 
-#line 1 "MessageParsing.feature"
+#line 1 "MessageCreation.feature"
 #line hidden
 
-        public MessageParsingFeature(MessageParsingFeature.FixtureData fixtureData,
+        public MessageCreationFeature(MessageCreationFeature.FixtureData fixtureData,
             Xunit.Abstractions.ITestOutputHelper testOutputHelper)
         {
             this._testOutputHelper = testOutputHelper;
@@ -40,9 +40,9 @@ namespace Turms.AcceptanceTest
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
             TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(
-                new System.Globalization.CultureInfo("en-US"), "MessageParsing",
-                "\tIn order to process a message\r\n\tAs an interface engineer\r\n\tI want to parse a mes" +
-                "sage string to an object structure", ProgrammingLanguage.CSharp, ((string[]) (null)));
+                new System.Globalization.CultureInfo("en-US"), "MessageCreation",
+                "\tIn order to process invalid messages\r\n\tAs an interface engineer\r\n\tI want to crea" +
+                "te new HL7 messages", ProgrammingLanguage.CSharp, ((string[]) (null)));
             testRunner.OnFeatureStart(featureInfo);
         }
 
@@ -78,30 +78,30 @@ namespace Turms.AcceptanceTest
             this.ScenarioTearDown();
         }
 
-        [Xunit.FactAttribute(DisplayName = "Parse ADT^A01 message")]
-        [Xunit.TraitAttribute("FeatureTitle", "MessageParsing")]
-        [Xunit.TraitAttribute("Description", "Parse ADT^A01 message")]
+        [Xunit.FactAttribute(DisplayName = "Create a new ADT^A01 message")]
+        [Xunit.TraitAttribute("FeatureTitle", "MessageCreation")]
+        [Xunit.TraitAttribute("Description", "Create a new ADT^A01 message")]
         [Xunit.TraitAttribute("Category", "mytag")]
-        public virtual void ParseADTA01Message()
+        public virtual void CreateANewADTA01Message()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Parse ADT^A01 message",
-                new string[]
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo(
+                "Create a new ADT^A01 message", new string[]
                 {
                     "mytag"
                 });
 #line 7
             this.ScenarioSetup(scenarioInfo);
 #line 8
-            testRunner.Given("I have an ADT^A01 message", ((string) (null)), ((TechTalk.SpecFlow.Table) (null)),
-                "Given ");
+            testRunner.Given("I create a new message", ((string) (null)), ((TechTalk.SpecFlow.Table) (null)), "Given ");
 #line 9
-            testRunner.When("I parse the message", ((string) (null)), ((TechTalk.SpecFlow.Table) (null)), "When ");
+            testRunner.And("I populate the MSH Segment", ((string) (null)), ((TechTalk.SpecFlow.Table) (null)), "And ");
 #line 10
-            testRunner.Then("the patient ID can be extracted", ((string) (null)), ((TechTalk.SpecFlow.Table) (null)),
-                "Then ");
+            testRunner.And("I populate the PID Segment", ((string) (null)), ((TechTalk.SpecFlow.Table) (null)), "And ");
 #line 11
-            testRunner.And("the patient name can be extracted", ((string) (null)), ((TechTalk.SpecFlow.Table) (null)),
-                "And ");
+            testRunner.When("I encode the message", ((string) (null)), ((TechTalk.SpecFlow.Table) (null)), "When ");
+#line 12
+            testRunner.Then("the message can be parsed", ((string) (null)), ((TechTalk.SpecFlow.Table) (null)),
+                "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -112,12 +112,12 @@ namespace Turms.AcceptanceTest
         {
             public FixtureData()
             {
-                MessageParsingFeature.FeatureSetup();
+                MessageCreationFeature.FeatureSetup();
             }
 
             void System.IDisposable.Dispose()
             {
-                MessageParsingFeature.FeatureTearDown();
+                MessageCreationFeature.FeatureTearDown();
             }
         }
     }

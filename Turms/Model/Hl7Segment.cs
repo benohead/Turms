@@ -12,7 +12,8 @@ namespace Turms.Model
         public override string ToString()
         {
             EnsureFullyParsed();
-            return string.Join(Encoding.FieldSeparator.ToString(), Fields.Select(f => f.ToString())).TrimEnd(Encoding.FieldSeparator);
+            return string.Join(Encoding.FieldSeparator.ToString(), Fields.Select(f => f.ToString()))
+                .TrimEnd(Encoding.FieldSeparator);
         }
 
         #region constructors
@@ -38,21 +39,41 @@ namespace Turms.Model
             Value = segment;
         }
 
+        public Hl7Segment(string value) : this(value.Substring(0, 3), value, new Hl7Encoding())
+        {
+        }
+
         #endregion constructors
 
         #region operators
 
-        public Hl7Field this[int i]
+        public override Hl7Element this[int i]
         {
             get
             {
                 EnsureFullyParsed();
-                return Fields.Count > i ? Fields[i] : Hl7Field.Parse("", Encoding);
+                if (Fields.Count > i)
+                {
+                    return Fields[i];
+                }
+                var field = Hl7Field.Parse("", Encoding);
+                this[i] = field;
+                return field;
+            }
+            set
+            {
+                EnsureFullyParsed();
+                for (int j = Fields.Count; j <= i; j++)
+                {
+                    Fields.Add(new Hl7Field());
+                }
+                Fields[i] = (Hl7Field) value;
             }
         }
 
         public static Hl7Segment operator +(Hl7Segment segment, Hl7Field field)
         {
+            segment.EnsureFullyParsed();
             segment.Fields.Add(field);
             return segment;
         }
@@ -83,7 +104,9 @@ namespace Turms.Model
             var segmentName = segment.Substring(0, 3);
             var hl7Segment = new Hl7Segment(segmentName, segment, encoding);
             if (segment.Length <= 4)
-                hl7Segment.IsParsed = true;
+            {
+                hl7Segment.EnsureFullyParsed();
+            }
             return hl7Segment;
         }
 
@@ -96,6 +119,7 @@ namespace Turms.Model
                 foreach (var field in fields)
                     Fields.Add(Hl7Field.Parse(field, Encoding));
                 IsParsed = true;
+                Value = null;
             }
         }
 

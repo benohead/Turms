@@ -110,5 +110,37 @@ namespace Turms.UnitTest.Model
             Assert.Equal(EvnSegmentTrimmed, segment.ToString());
             Assert.Equal(EvnSegmentDollarAsSeparatorTrimmed, segment2.ToString());
         }
+
+        [Fact]
+        public void ShouldReturnAddedField()
+        {
+            //Arrange
+            var segmentString = "EVN";
+
+            //Act
+            var segment = Hl7Segment.Parse(segmentString);
+            segment[1] = new Hl7Field("A01");
+            segment[2] = new Hl7Field("20110613083617");
+            var field1 = segment[1].ToString();
+            var field2 = segment[2].ToString();
+
+            //Assert
+            Assert.Equal("A01", field1);
+            Assert.Equal("20110613083617", field2);
+        }
+
+        [Fact]
+        public void ShouldReturnEmptyFieldByDefault()
+        {
+            //Arrange
+            var segmentString = "EVN|A01|20110613083617";
+
+            //Act
+            var segment = Hl7Segment.Parse(segmentString);
+            var field = segment[3].ToString();
+
+            //Assert
+            Assert.Equal("", field);
+        }
     }
 }
