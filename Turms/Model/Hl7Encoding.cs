@@ -115,7 +115,7 @@ namespace Turms.Model
             return Encoding.ASCII.GetString(bytes).Replace("" + (char) 0, "");
         }
 
-        public string Escape(string s)
+        public string EscapeAllCharacters(string s)
         {
             return $"\\X{ToHexString(s)}\\";
         }

@@ -76,7 +76,7 @@ namespace Turms.Model
         public override string ToString()
         {
             EnsureFullyParsed();
-            return string.Join(Encoding.SegmentSeparator[0], Segments.Select(segment => segment.ToString()));
+            return string.Join(Encoding.SegmentSeparator[0], Segments.Select(segment => segment.ToEscapedString()));
         }
 
         #region operators
@@ -90,7 +90,10 @@ namespace Turms.Model
                 var segmentName = queryParts[0];
                 var segment = segmentsInternal.FirstOrDefault(s => s.Name == segmentName);
                 if (queryParts.Count == 1)
+                {
                     return segment;
+                }
+
                 var index = int.Parse(queryParts[1]);
                 return segment?[index];
             }
@@ -152,7 +155,9 @@ namespace Turms.Model
                 var segments = Value.Split(Encoding.SegmentSeparator, StringSplitOptions.None).ToList();
                 segmentsInternal.Clear();
                 foreach (var segment in segments)
+                {
                     segmentsInternal.Add(Hl7Segment.Parse(segment, Encoding));
+                }
             }
             Value = null;
             IsParsed = true;
@@ -181,7 +186,7 @@ namespace Turms.Model
                 var segment = segments[i];
                 if (segment.Length > 3 && segment[3] != encoding.FieldSeparator)
                 {
-                    builder.Append(encoding.Escape(encoding.SegmentSeparator[0]));
+                    builder.Append(encoding.EscapeAllCharacters(encoding.SegmentSeparator[0]));
                 }
                 else
                 {

@@ -26,7 +26,7 @@ namespace Turms.UnitTest.Model
             const string content = "\r\n";
 
             // Act
-            var result = new Hl7Encoding().Escape(content);
+            var result = new Hl7Encoding().EscapeAllCharacters(content);
 
             // Assert
             const string expectedResult = @"\X0D0A\";

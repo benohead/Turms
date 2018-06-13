@@ -16,6 +16,13 @@ namespace Turms.Model
                 .TrimEnd(Encoding.FieldSeparator);
         }
 
+        public string ToEscapedString()
+        {
+            EnsureFullyParsed();
+            return string.Join(Encoding.FieldSeparator.ToString(), Fields.Select(f => f.ToEscapedString()))
+                .TrimEnd(Encoding.FieldSeparator);
+        }
+
         #region constructors
 
         public Hl7Segment() : this(new Hl7Encoding())
@@ -95,11 +102,17 @@ namespace Turms.Model
 
         public static Hl7Segment Parse(string segment, Hl7Encoding encoding)
         {
-            if (segment == null) throw new ArgumentNullException(nameof(segment));
+            if (segment == null)
+            {
+                throw new ArgumentNullException(nameof(segment));
+            }
+
             if (segment.Length < 3
                 || segment.Length > 3 && segment[3] != encoding.FieldSeparator
                 || segment.Substring(0, 3).Contains(encoding.FieldSeparator))
+            {
                 throw new ArgumentException("Segment names should be 3 character long", segment);
+            }
 
             var segmentName = segment.Substring(0, 3);
             var hl7Segment = new Hl7Segment(segmentName, segment, encoding);
@@ -116,8 +129,18 @@ namespace Turms.Model
             {
                 var fields = Value.TrimEnd(Encoding.FieldSeparator).Split(Encoding.FieldSeparator).ToList();
                 Fields.Clear();
-                foreach (var field in fields)
-                    Fields.Add(Hl7Field.Parse(field, Encoding));
+                for (int i = 0; i < fields.Count; i++)
+                {
+                    string field = fields[i];
+                    if (Name == "MSH" && i == 1)
+                    {
+                        Fields.Add(Hl7Field.Parse(field, Encoding, doNotEscape: true));
+                    }
+                    else
+                    {
+                        Fields.Add(Hl7Field.Parse(field, Encoding));
+                    }
+                }
                 IsParsed = true;
                 Value = null;
             }

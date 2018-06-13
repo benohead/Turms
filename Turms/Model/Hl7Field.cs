@@ -6,12 +6,8 @@ namespace Turms.Model
 {
     public class Hl7Field : Hl7Element
     {
+        private readonly bool doNotEscape;
         private List<Hl7FieldRepetition> Repetitions { get; }
-
-        private Hl7Field(string value, Hl7Encoding encoding) : this(encoding)
-        {
-            Value = value.TrimEnd(encoding.ComponentSeparator);
-        }
 
         public Hl7Field() : this(new Hl7Encoding())
         {
@@ -29,11 +25,28 @@ namespace Turms.Model
             Value = value;
         }
 
+        private Hl7Field(string value, Hl7Encoding encoding, bool doNotEscape) : this(encoding)
+        {
+            Value = value;
+            this.doNotEscape = doNotEscape;
+        }
+
         public override string ToString()
         {
             EnsureFullyParsed();
-            return string.Join(Encoding.RepetitionSeparator.ToString(), Repetitions.Select(f => f.ToString()))
+            return string.Join(Encoding.RepetitionSeparator.ToString(), Repetitions.Select(r => r.ToString()))
                 .TrimEnd(Encoding.RepetitionSeparator);
+        }
+
+        public string ToEscapedString()
+        {
+            EnsureFullyParsed();
+            var escapedString = string.Join(Encoding.RepetitionSeparator.ToString(), Repetitions.Select(r => doNotEscape ? r.ToString() : r.ToEscapedString()));
+            if (!doNotEscape)
+            {
+                escapedString = escapedString.TrimEnd(Encoding.RepetitionSeparator);
+            }
+            return escapedString;
         }
 
         public static Hl7Field Parse(string field)
@@ -41,20 +54,23 @@ namespace Turms.Model
             return Parse(field, new Hl7Encoding());
         }
 
-        public static Hl7Field Parse(string field, Hl7Encoding encoding)
+        public static Hl7Field Parse(string field, Hl7Encoding encoding, bool doNotEscape = false)
         {
-            return new Hl7Field(field, encoding);
+            return new Hl7Field(field, encoding, doNotEscape);
         }
 
         protected override void FullyParse()
         {
             if (!string.IsNullOrEmpty(Value))
             {
-                var repetitions = Value.TrimEnd(Encoding.RepetitionSeparator).Split(Encoding.RepetitionSeparator)
+                var trimmedValue = doNotEscape ? Value : Value.TrimEnd(Encoding.RepetitionSeparator);
+                var repetitions = trimmedValue.Split(Encoding.RepetitionSeparator)
                     .ToList();
                 Repetitions.Clear();
                 foreach (var repetition in repetitions)
-                    Repetitions.Add(Hl7FieldRepetition.Parse(repetition, Encoding));
+                {
+                    Repetitions.Add(Hl7FieldRepetition.Parse(repetition, Encoding, doNotEscape));
+                }
                 IsParsed = true;
                 Value = null;
             }

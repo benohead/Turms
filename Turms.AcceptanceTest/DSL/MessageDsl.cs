@@ -97,5 +97,18 @@ namespace Turms.AcceptanceTest.DSL
             //message["PID"][5][1][2] = new Hl7Component(firstname);
             //scenarioContext["ParsedMessage"] = message;
         }
+
+        public void ConfirmSerializedMessageIsIdentical()
+        {
+            var parsedMessage = scenarioContext.Get<Hl7Message>("ParsedMessage");
+            var originalMessage = scenarioContext.Get<string>("MessageString");
+            Assert.Equal(originalMessage, parsedMessage.ToString());
+        }
+
+        public MessagePartConfirmer ConfirmMessagePart(string selector)
+        {
+            var parsedMessage = scenarioContext.Get<Hl7Message>("ParsedMessage");
+            return new MessagePartConfirmer(parsedMessage[selector]);
+        }
     }
 }

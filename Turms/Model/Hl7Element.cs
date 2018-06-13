@@ -13,7 +13,9 @@ namespace Turms.Model
         public void EnsureFullyParsed()
         {
             if (!IsParsed)
+            {
                 FullyParse();
+            }
         }
 
         protected abstract void FullyParse();
