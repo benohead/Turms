@@ -5,4 +5,4 @@ dotnet: 2.0.0
 script:
   - dotnet restore
   - dotnet test Turms.UnitTest
-  - dotnet test Turms.AcceptanceTest
+  - mono ./testrunner/NUnit.Runners.2.6.4/tools/nunit-console.exetest ./Turms.AcceptanceTest/Turms.AcceptanceTest.csproj
