@@ -7,4 +7,4 @@ script:
   - dotnet test Turms.UnitTest
   - nuget install xunit.runners -Version 1.9.2 -OutputDirectory testrunner
   - xbuild /p:Configuration=Release Turms.sln
-  - mono ./testrunner/xunit.runners.1.9.2/tools/xunit.console.clr4.exe ./Turms.AcceptanceTest/Turms.AcceptanceTest.csproj
+  - mono ./testrunner/xunit.runners.1.9.2/tools/xunit.console.clr4.exe ./Turms.AcceptanceTest/bin/Release/Turms.AcceptanceTest.dll
