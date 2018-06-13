@@ -5,3 +5,4 @@ dotnet: 2.0.0
 script:
   - dotnet restore
   - dotnet test Turms.UnitTest
+  - dotnet test Turms.AcceptanceTest
