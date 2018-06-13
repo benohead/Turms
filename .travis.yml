@@ -5,4 +5,5 @@ dotnet: 2.0.0
 script:
   - dotnet restore
   - dotnet test Turms.UnitTest
+  - nuget install NUnit.Runners -Version 2.6.4 -OutputDirectory testrunner
   - mono ./testrunner/NUnit.Runners.2.6.4/tools/nunit-console.exetest ./Turms.AcceptanceTest/Turms.AcceptanceTest.csproj
